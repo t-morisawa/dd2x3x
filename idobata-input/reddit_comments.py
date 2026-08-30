@@ -2,30 +2,6 @@ import csv
 import json
 import os
 import sys
-import urllib.request
-
-COOKIE_FILE = os.path.join(os.path.dirname(__file__), ".reddit_cookie")
-
-
-def load_cookie():
-    path = os.environ.get("REDDIT_COOKIE_FILE", COOKIE_FILE)
-    if os.path.isfile(path):
-        with open(path) as f:
-            return f.read().strip()
-    return os.environ.get("REDDIT_COOKIE", "")
-
-
-def fetch_json(url):
-    cookie = load_cookie()
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:152.0) Gecko/20100101 Firefox/152.0",
-        "Accept": "application/json",
-    }
-    if cookie:
-        headers["Cookie"] = cookie.encode("ascii", errors="ignore").decode("ascii")
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read().decode("utf-8"))
 
 
 def collect_comments(children):
@@ -45,32 +21,32 @@ def collect_comments(children):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 reddit_comments.py <reddit_thread_url>", file=sys.stderr)
+        print("Usage: python3 reddit_comments.py <reddit_json_file>", file=sys.stderr)
         print("\nExample:", file=sys.stderr)
-        print("  python3 reddit_comments.py https://www.reddit.com/r/ExperiencedDevs/comments/1w1q7gt", file=sys.stderr)
-        print("\nReddit requires a session cookie. Put it in:", file=sys.stderr)
-        print(f"  {COOKIE_FILE}", file=sys.stderr)
-        print("  (single line: the full Cookie header value from browser DevTools)", file=sys.stderr)
+        print("  python3 reddit_comments.py reddit_json/abc123.json", file=sys.stderr)
         sys.exit(1)
 
-    url = sys.argv[1].rstrip("/")
-    json_url = url + ".json"
+    json_path = sys.argv[1]
+    csv_path = os.path.splitext(json_path)[0] + ".csv"
 
-    data = fetch_json(json_url)
+    with open(json_path, encoding="utf-8") as f:
+        data = json.load(f)
 
     post = data[0]["data"]["children"][0]["data"]
     title = post.get("title", "")
     selftext = post.get("selftext", "")
 
-    comments_children = data[1]["data"]["children"]
-    comments = collect_comments(comments_children)
+    comments = collect_comments(data[1]["data"]["children"])
 
-    writer = csv.writer(sys.stdout)
-    writer.writerow(["content", "sourceType"])
-    if selftext.strip():
-        writer.writerow([f"[{title}] {selftext}", "reddit"])
-    for comment in comments:
-        writer.writerow([comment, "reddit"])
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["content", "sourceType"])
+        if selftext.strip():
+            writer.writerow([f"[{title}] {selftext}", "reddit"])
+        for comment in comments:
+            writer.writerow([comment, "reddit"])
+
+    print(f"Wrote {len(comments)} comments to {csv_path}")
 
 
 if __name__ == "__main__":
