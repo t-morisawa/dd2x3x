@@ -1,13 +1,19 @@
 import csv
 import json
+import os
 import sys
 import urllib.request
 
 
 def fetch_json(url):
-    req = urllib.request.Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-    })
+    cookie = os.environ.get("REDDIT_COOKIE", "")
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:152.0) Gecko/20100101 Firefox/152.0",
+        "Accept": "application/json",
+    }
+    if cookie:
+        headers["Cookie"] = cookie
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req) as resp:
         return json.loads(resp.read().decode("utf-8"))
 
@@ -32,6 +38,8 @@ def main():
         print("Usage: python3 reddit_comments.py <reddit_thread_url>", file=sys.stderr)
         print("\nExample:", file=sys.stderr)
         print("  python3 reddit_comments.py https://www.reddit.com/r/ExperiencedDevs/comments/1w1q7gt", file=sys.stderr)
+        print("\nReddit may require a session cookie. Set REDDIT_COOKIE env var:", file=sys.stderr)
+        print("  export REDDIT_COOKIE='reddit_session=...'", file=sys.stderr)
         sys.exit(1)
 
     url = sys.argv[1].rstrip("/")
