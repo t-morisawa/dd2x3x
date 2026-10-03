@@ -6,3 +6,7 @@ __pycache__/
 .reddit_cookie
 reddit_json/
 .DS_Store
+
+# Node
+nameteki/node_modules/
+nameteki/dist/
