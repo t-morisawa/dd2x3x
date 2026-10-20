@@ -98,19 +98,19 @@ function securityFor(stepNo) {
   if (!stepNo || !demo) return `<div class="empty-state"><span class="empty-icon">◇</span><span>ステップに応じた暗号情報・DB状態が表示されます</span><small>秘密値はこの画面内だけのデモデータです</small></div>`;
   const d = demo;
   const rows = [];
-  if (stepNo >= 1) rows.push(["解決したID", "DID", "did:plc:example123"]);
+  if (stepNo >= 1) rows.push(["解決したID", "DID", "did:plc:example123", "DID（分散型識別子）は、AT Protocol上でユーザーを指す一意のIDです。ハンドルと違い、ユーザーがサーバーを移転しても基本的に変わりません。"]);
   if (stepNo >= 2) {
-    rows.push(["PKCE", "S256", `<em>verifier</em> ${escapeHTML(d.verifier.slice(0, 15))}…<br/><em>challenge</em> ${escapeHTML(d.challenge.slice(0, 23))}…`]);
-    rows.push(["DPoP 鍵", "ES256 · P-256", `<span class="secure">公開 JWK</span> ${escapeHTML(d.publicJwk.x?.slice(0, 16) || "demo") }…<br/>秘密鍵 <span class="secure">サーバー側</span>`]);
-    rows.push(["OAuth state", "CSRF / one-time", `<span class="secure">${escapeHTML(d.state.slice(0, 16))}…</span> · TTL 10m`]);
+    rows.push(["PKCE", "S256", `<em>verifier</em> ${escapeHTML(d.verifier.slice(0, 15))}…<br/><em>challenge</em> ${escapeHTML(d.challenge.slice(0, 23))}…`, "認可コードの横取り対策です。開始時にverifierのハッシュ（challenge）を送り、トークン交換時に元のverifierを提示して、コードを受け取った本人であることを確かめます。"]);
+    rows.push(["DPoP 鍵", "ES256 · P-256", `<span class="secure">公開 JWK</span> ${escapeHTML(d.publicJwk.x?.slice(0, 16) || "demo") }…<br/>秘密鍵 <span class="secure">サーバー側</span>`, "リクエスト署名に使う鍵ペアです。秘密鍵でDPoP Proofを作り、対応する公開鍵に結び付いたトークンだけを使えるようにします。秘密鍵は外部に渡しません。"]);
+    rows.push(["OAuth state", "CSRF / one-time", `<span class="secure">${escapeHTML(d.state.slice(0, 16))}…</span> · TTL 10m`, "認証開始時に作るランダムな一時値です。戻り先のcallbackで照合し、別のログイン要求へのすり替え（CSRF）を防ぎます。照合後は再利用しません。"]);
   }
-  if (stepNo >= 3) rows.push(["Client assertion", "private_key_jwt", `<span class="secure">ES256 signature</span><br/>aud: authorization server · exp: short-lived`]);
-  if (stepNo >= 3 && stepNo < 8) rows.push(["DPoP Proof", "typ: dpop+jwt", `htm: <em>${stepNo === 3 || stepNo === 6 ? "POST" : "GET"}</em> · htu: /oauth/${stepNo === 3 ? "par" : "token"}<br/>jti: <span class="secure">unique per request</span>`]);
-  if (stepNo >= 6) rows.push(["Access token", "DPoP-bound", `<span class="token-value">${escapeHTML(d.access)}</span><br/>refresh: ${escapeHTML(d.refresh)}`]);
-  if (stepNo === 8 || stepNo === 9) rows.push(["API Proof", "ath + nonce", `ath: <span class="secure">SHA-256(access_token)</span><br/>${stepNo === 9 ? `nonce: <span class="secure">${escapeHTML(d.nonce)}</span>` : "fresh jti · htm · htu"}`]);
+  if (stepNo >= 3) rows.push(["Client JWT", "private_key_jwt", `<span class="secure">ES256 signature</span><br/>aud: authorization server · exp: short-lived`, "アプリ（OAuthクライアント）自身の身元を認可サーバーに証明する署名付きJWTです。アプリの秘密鍵で署名します。ユーザーのAPIアクセスを証明するDPoP Proofとは別の役割です。"]);
+  if (stepNo >= 3 && stepNo < 8) rows.push(["DPoP Proof", "typ: dpop+jwt", `htm: <em>${stepNo === 3 || stepNo === 6 ? "POST" : "GET"}</em> · htu: /oauth/${stepNo === 3 ? "par" : "token"}<br/>jti: <span class="secure">unique per request</span>`, "このリクエストのために作る短命な署名です。HTTPメソッドや送信先などを含み、対応するDPoP秘密鍵を持つクライアントからの通信だと示します。リクエストごとに作り直します。"]);
+  if (stepNo >= 6) rows.push(["Access token", "DPoP-bound", `<span class="token-value">${escapeHTML(d.access)}</span><br/>refresh: ${escapeHTML(d.refresh)}`, "保護されたAPI（ここではPDS）を利用するための資格情報です。この例ではDPoP鍵に結び付いているため、トークンだけを盗まれてもAPIを呼び出せません。refresh tokenはアクセストークンの更新に使います。"]);
+  if (stepNo === 8 || stepNo === 9) rows.push(["API Proof", "ath + nonce", `ath: <span class="secure">SHA-256(access_token)</span><br/>${stepNo === 9 ? `nonce: <span class="secure">${escapeHTML(d.nonce)}</span>` : "fresh jti · htm · htu"}`, "PDSへのAPIリクエストに添えるDPoP Proofです。athはアクセストークンのハッシュでトークンとの組み合わせを示し、nonceがある場合はサーバーの要求に応じてProofへ含めます。"]);
   const stateCount = stepNo >= 2 && stepNo < 5 ? 1 : 0;
   const sessionCount = stepNo >= 7 ? 1 : 0;
-  return `<div class="security-list">${rows.map(([name, sub, value]) => `<div class="security-item"><div class="security-label">${name}<small>${sub}</small></div><div class="security-value">${value}</div></div>`).join("")}</div><div class="security-note"><span>▤</span><span>DB snapshot　<b>oauth_states ${stateCount}件</b>　·　<b>oauth_sessions ${sessionCount}件</b></span></div>`;
+  return `<div class="security-list">${rows.map(([name, sub, value, explanation], index) => `<div class="security-item"><div class="security-label"><button class="term-chip" type="button" aria-label="${escapeHTML(name)}。${escapeHTML(explanation)}" aria-describedby="security-tip-${index}">${escapeHTML(name)}<span class="term-help" aria-hidden="true">?</span><span class="term-tooltip" id="security-tip-${index}" role="tooltip">${escapeHTML(explanation)}</span></button><small>${sub}</small></div><div class="security-value">${value}</div></div>`).join("")}</div><div class="security-note"><span>▤</span><span>DB snapshot　<b>oauth_states ${stateCount}件</b>　·　<b>oauth_sessions ${sessionCount}件</b></span></div>`;
 }
 
 function render() {

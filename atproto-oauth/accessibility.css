@@ -62,6 +62,65 @@
 .security-label small { font-size: 12px; }
 .security-value { font-size: 12px; line-height: 1.7; }
 .security-note { font-size: 12px; line-height: 1.6; }
+.security-panel { overflow: visible; }
+.security-item { position: relative; }
+.security-item:hover,
+.security-item:focus-within { z-index: 2; }
+.term-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 3px 7px;
+  border: 1px solid #dcd7fb;
+  border-radius: 6px;
+  background: #f7f5ff;
+  color: #5145b5;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+  cursor: help;
+}
+.term-help {
+  display: inline-grid;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e9e5ff;
+  color: #6256c9;
+  font: 700 10px/1 "DM Sans", sans-serif;
+}
+.term-chip:hover,
+.term-chip:focus-visible { border-color: #9a8ff0; outline: 2px solid #bcb4ff; outline-offset: 2px; }
+.term-tooltip {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  width: max-content;
+  max-width: min(290px, calc(100vw - 48px));
+  padding: 10px 12px;
+  border: 1px solid #dce1eb;
+  border-radius: 8px;
+  background: #202a3b;
+  box-shadow: 0 8px 24px #1923372b;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.65;
+  white-space: normal;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity .15s ease;
+}
+.term-chip:hover .term-tooltip,
+.term-chip:focus .term-tooltip,
+.term-chip:focus-visible .term-tooltip { visibility: visible; opacity: 1; }
 
 .handle-copy h2 { font-size: 15px; }
 .handle-copy p,
