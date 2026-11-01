@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f9fafb">
+  <title>Blueskyは何を分散化したのか？</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #006aff;
+      --blue-soft: #eef6ff;
+      --ink: #000;
+      --slate: #405168;
+      --steel: #667b99;
+      --page: #f9fafb;
+      --white: #fff;
+      --line: #dce2ea;
+      --line-soft: #e9edf2;
+      --green: #14804a;
+      --green-soft: #edf8f1;
+      --red: #c24141;
+      --red-soft: #fff1f0;
+      --radius: 21px;
+      --pill: 999px;
+      --shadow: 0 18px 55px rgba(35, 66, 105, .10), 0 2px 8px rgba(35, 66, 105, .04);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 8% 5%, rgba(192,220,240,.55), transparent 30%),
+        radial-gradient(ellipse at 94% 92%, rgba(0,106,255,.06), transparent 28%),
+        #f0f3f8;
+      overflow: hidden;
+    }
+    button { font: inherit; }
+    .deck {
+      width: min(1120px, 100%);
+      height: min(720px, calc(100svh - 44px));
+      min-height: 570px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--page);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+    }
+    .topbar, .bottombar {
+      height: 66px;
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(14px);
+      z-index: 5;
+    }
+    .topbar { border-bottom: 1px solid var(--line); }
+    .bottombar { border-top: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 11px; }
+    .butterfly { width: 32px; height: 32px; display: grid; place-items: center; color: white; background: var(--blue); border-radius: 50%; }
+    .butterfly svg { width: 18px; height: 18px; fill: currentColor; }
+    .brand-kicker { color: var(--steel); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
+    .brand-title { margin-top: 2px; color: var(--slate); font-size: 12px; font-weight: 700; }
+    .counter { padding: 7px 12px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--page); color: var(--slate); font: 500 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .stage { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      padding: 46px clamp(28px, 7vw, 82px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px) scale(.995);
+      transition: opacity .28s ease, transform .32s cubic-bezier(.16,1,.3,1), visibility .28s;
+      overflow: auto;
+      pointer-events: none;
+    }
+    .slide.active { position: relative; opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+    .slide.cover, .slide.close { justify-items: center; text-align: center; }
+    .eyebrow { margin: 0 0 12px; color: var(--blue); font-size: 22px; line-height: 1.3; font-weight: 700; letter-spacing: 0; text-transform: none; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 850px; margin-bottom: 17px; font-size: clamp(38px, 6vw, 68px); line-height: 1.08; letter-spacing: -.055em; font-weight: 700; }
+    h2 { margin-bottom: 8px; font-size: clamp(27px, 3.4vw, 42px); line-height: 1.12; letter-spacing: -.045em; font-weight: 700; }
+    h3 { margin-bottom: 8px; font-size: 17px; line-height: 1.3; }
+    .lead { max-width: 730px; margin-bottom: 0; color: var(--slate); font-size: clamp(15px, 1.7vw, 19px); line-height: 1.65; }
+    .cover .lead { max-width: 650px; }
+    .tag { display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin-bottom: 22px; padding: 8px 13px; color: var(--blue); background: var(--blue-soft); border: 1px solid #d2e7ff; border-radius: var(--pill); font-size: 11px; font-weight: 700; }
+    .tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px rgba(0,106,255,.1); }
+    .cover h1 span, .blue { color: var(--blue); }
+    .cover-mark { display: grid; place-items: center; width: 90px; height: 90px; margin-bottom: 25px; color: var(--blue); background: white; border: 1px solid var(--line); border-radius: 28px; box-shadow: 0 10px 28px rgba(0,106,255,.09); }
+    .cover-mark svg { width: 48px; height: 48px; fill: currentColor; }
+    .hint { margin-top: 30px; color: var(--steel); font-size: 11px; }
+    kbd { padding: 3px 6px; background: #fff; border: 1px solid var(--line); border-radius: 6px; color: var(--slate); font: 10px ui-monospace, monospace; }
+    .section-head { margin-bottom: 25px; }
+    .section-head p { margin-bottom: 0; color: var(--slate); font-size: 14px; line-height: 1.55; }
+    .coin-grid { display: grid; grid-template-columns: 1fr 76px 1fr; align-items: stretch; gap: 16px; }
+    .coin-card { min-height: 210px; padding: clamp(20px, 3vw, 30px); display: flex; flex-direction: column; justify-content: space-between; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .coin-card.good { color: white; border-color: var(--blue); background: var(--blue); }
+    .coin-card.dark { color: white; border-color: #0b0f19; background: #0b0f19; }
+    .coin-symbol { display: flex; align-items: center; gap: 9px; color: var(--slate); font-size: 11px; font-weight: 700; }
+    .coin-symbol .mode { padding: 5px 9px; border-radius: var(--pill); color: var(--blue); background: var(--blue-soft); font-size: 9px; letter-spacing: .04em; }
+    .coin-card.good .coin-symbol, .coin-card.dark .coin-symbol { color: rgba(255,255,255,.82); }
+    .coin-card.good .coin-symbol .mode { color: var(--blue); background: white; }
+    .coin-card.dark .coin-symbol .mode { color: white; background: #354358; }
+    .coin-card strong { display: block; margin: 9px 0 4px; font-size: clamp(24px, 3vw, 34px); letter-spacing: -.04em; }
+    .coin-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.5; }
+    .coin-card.good p, .coin-card.dark p { color: rgba(255,255,255,.88); }
+    .coin-center { display: grid; place-items: center; align-self: center; width: 54px; height: 54px; border: 1px solid var(--line); border-radius: 50%; color: var(--steel); background: white; font-size: 11px; font-weight: 700; box-shadow: 0 6px 18px rgba(35,66,105,.08); }
+    .mini-network { height: 36px; display: flex; align-items: center; gap: 6px; margin-top: 13px; color: var(--blue); }
+    .mini-network span { display: grid; place-items: center; min-width: 39px; height: 24px; padding: 0 7px; border: 1px solid #cfe4fb; border-radius: var(--pill); color: var(--slate); background: #fff; font-size: 8px; font-weight: 600; }
+    .mini-network i { flex: 1; height: 1px; min-width: 8px; background: #a8d2ff; position: relative; }
+    .mini-network i::after { position: absolute; top: -3px; right: 0; content: ""; border: 3px solid transparent; border-left-color: var(--blue); }
+    .coin-card.dark .mini-network { justify-content: center; color: var(--steel); }
+    .coin-card.dark .mini-network span { border-color: var(--line); }
+    .coin-card.dark .mini-network i { max-width: 42px; background: #c6ced8; }
+    .coin-card.dark .mini-network i::after { border-left-color: #8492a4; }
+    .coin-card.good .mini-network span { border-color: rgba(255,255,255,.65); color: var(--blue); background: white; }
+    .coin-card.good .mini-network i { background: rgba(255,255,255,.7); }
+    .coin-card.good .mini-network i::after { border-left-color: white; }
+    .coin-card.dark .mini-network span { border-color: rgba(255,255,255,.55); color: white; background: #1e293b; }
+    .coin-card.dark .mini-network i { background: #94a3b8; }
+    .coin-card.dark .mini-network i::after { border-left-color: #cbd5e1; }
+    .callout { margin-top: 17px; padding: 13px 17px; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; color: var(--slate); background: #f0f6ff; font-size: 13px; line-height: 1.55; }
+    .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .consumer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .consumer-card { padding: 17px 19px; background: white; border: 1px solid var(--line); border-radius: 16px; }
+    .consumer-card h3 { margin: 7px 0 5px; font-size: 14px; }
+    .consumer-card p { margin: 0; color: var(--slate); font-size: 11px; line-height: 1.55; }
+    .consumer-tool { color: var(--blue); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .relay-pipeline { display: grid; grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr; align-items: center; gap: 8px; margin: 8px 0 15px; }
+    .pipeline-step { min-height: 65px; display: flex; flex-direction: column; justify-content: center; padding: 9px 10px; text-align: center; border: 1px solid var(--line); border-radius: 13px; background: white; }
+    .pipeline-step b { color: var(--ink); font-size: 11px; }
+    .pipeline-step span { margin-top: 4px; color: var(--steel); font-size: 9px; }
+    .pipeline-arrow { color: var(--blue); text-align: center; font-size: 16px; }
+    .relay-meta { margin: 0 0 10px; color: var(--steel); font-size: 10px; text-align: right; }
+    .relay-concurrency { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .relay-concurrency .consumer-card { min-height: 142px; }
+    .reason-card { min-height: 150px; padding: 22px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .reason-card .number { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-bottom: 14px; border-radius: 50%; color: var(--blue); background: var(--blue-soft); font-size: 11px; font-weight: 700; }
+    .reason-card:nth-child(2) .number { color: var(--ink); background: #f0f2f5; }
+    .reason-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
+    .tradeoff { margin-top: 24px; color: var(--ink); text-align: center; font-size: clamp(19px, 2.4vw, 27px); line-height: 1.45; font-weight: 700; letter-spacing: -.025em; }
+    .intro-card { display: grid; grid-template-columns: 130px 1fr; gap: 26px; align-items: center; width: min(700px, 100%); margin: 0 auto; padding: 28px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .avatar { width: 118px; height: 118px; display: grid; place-items: center; color: var(--blue); background: linear-gradient(140deg, #f1f8ff, #dceeff); border: 1px solid #d4e8fc; border-radius: 50%; font-size: 36px; font-weight: 700; }
+    .intro-card h3 { margin-bottom: 3px; font-size: 25px; letter-spacing: -.04em; }
+    .intro-card .role { margin-bottom: 13px; color: var(--steel); font-size: 13px; }
+    .intro-card p:last-child { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
+    .edit-note { margin: 15px 0 0; text-align: center; color: var(--steel); font-size: 10px; }
+    .architecture { display: grid; grid-template-columns: 1fr 130px 1fr; align-items: center; gap: 12px; margin-top: 8px; }
+    .node-stack { display: grid; gap: 11px; }
+    .node { padding: 15px 17px; background: white; border: 1px solid var(--line); border-radius: 15px; }
+    .node h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 3px; font-size: 14px; }
+    .node p { margin: 0; color: var(--steel); font-size: 11px; line-height: 1.45; }
+    .node-icon { display: inline-grid; place-items: center; width: 25px; height: 25px; border-radius: 8px; color: var(--blue); background: var(--blue-soft); font-size: 12px; font-weight: 700; }
+    .flow { display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--blue); font-size: 10px; font-weight: 700; text-align: center; }
+    .flow-line { width: 100%; height: 2px; position: relative; background: #a8d2ff; }
+    .flow-line::after { position: absolute; top: -4px; right: -1px; content: ""; border: 5px solid transparent; border-left-color: var(--blue); }
+    .pds { padding: 22px 14px; border: 1.5px solid #98c8ff; border-radius: 19px; text-align: center; background: linear-gradient(160deg, white, var(--blue-soft)); }
+    .pds .node-icon { width: 37px; height: 37px; margin: 0 auto 9px; border-radius: 12px; font-size: 16px; }
+    .pds h3 { justify-content: center; font-size: 19px; }
+    .pds p { font-size: 11px; }
+    .pds-options { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 12px; }
+    .pds-option { min-width: 72px; padding: 8px 10px; border: 1px solid #cfe4fb; border-radius: 11px; color: var(--slate); background: white; font-size: 10px; font-weight: 700; }
+    .pds-move { color: var(--blue); font-size: 15px; font-weight: 700; }
+    .pds-options-label { margin-top: 5px; color: var(--steel); font-size: 9px; }
+    .micro-label { display: inline-block; margin-top: 10px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--pill); color: var(--slate); background: white; font-size: 9px; }
+    .bottom-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 17px; }
+    .fact { padding: 12px 14px; border: 1px solid var(--line-soft); border-radius: 13px; background: rgba(255,255,255,.75); }
+    .fact b { display: block; margin-bottom: 4px; font-size: 11px; }
+    .fact span { display: block; color: var(--steel); font-size: 10px; line-height: 1.45; }
+    .relay-diagram { display: grid; grid-template-columns: 1fr 24px 1.05fr 24px 1fr; align-items: center; gap: 12px; margin-top: 5px; }
+    .pds-cloud { display: grid; gap: 8px; }
+    .pds-mini { padding: 10px 12px; display: flex; align-items: center; gap: 9px; background: white; border: 1px solid var(--line); border-radius: 12px; color: var(--slate); font-size: 11px; }
+    .pds-mini i { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; color: var(--blue); background: var(--blue-soft); font-style: normal; font-size: 10px; font-weight: 700; }
+    .relay-node { padding: 24px 18px; text-align: center; color: white; background: var(--blue); border-radius: 20px; box-shadow: 0 10px 23px rgba(0,106,255,.18); }
+    .relay-node .relay-icon { font-size: 24px; }
+    .relay-node h3 { margin: 5px 0; font-size: 22px; }
+    .relay-node p { margin: 0; color: rgba(255,255,255,.83); font-size: 10px; line-height: 1.5; }
+    .two-way { display: flex; align-items: center; gap: 5px; color: var(--blue); font-size: 18px; }
+    .apps { display: grid; gap: 9px; }
+    .app-node { padding: 11px 12px; background: white; border: 1px solid var(--line); border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .app-node small { display: block; margin-top: 3px; color: var(--steel); font-size: 9px; font-weight: 400; }
+    .diagram-caption { margin: 10px 0 0; text-align: center; color: var(--steel); font-size: 10px; }
+    .relay-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 17px; }
+    .relay-bottom div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 13px; background: white; color: var(--slate); font-size: 11px; line-height: 1.5; }
+    .relay-bottom b { color: var(--ink); }
+    .faq-list { display: grid; gap: 9px; }
+    .faq-row { display: grid; grid-template-columns: minmax(180px, .8fr) 1.6fr; gap: 18px; align-items: center; padding: 13px 17px; background: white; border: 1px solid var(--line); border-radius: 14px; }
+    .faq-row strong { font-size: 12px; line-height: 1.45; }
+    .faq-row p { margin: 0; color: var(--slate); font-size: 11px; line-height: 1.55; }
+    .yes { color: var(--blue); font-weight: 700; }
+    .split-line { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 15px; }
+    .split-box { padding: 15px 17px; background: white; border: 1px solid var(--line); border-radius: 15px; }
+    .split-box b { display: block; margin-bottom: 5px; color: var(--blue); font-size: 12px; }
+    .split-box span { color: var(--slate); font-size: 10px; line-height: 1.5; }
+    .go-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .go-card { min-height: 210px; padding: 22px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .go-card .mini-eyebrow { margin-bottom: 12px; color: var(--steel); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .lang-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin: 15px 0; }
+    .lang { padding: 13px 10px; border: 1px solid var(--line); border-radius: 13px; text-align: center; }
+    .lang b { display: block; font-size: 20px; }
+    .lang small { color: var(--steel); font-size: 9px; }
+    .lang-arrow { color: var(--blue); font-size: 18px; }
+    .go-card p { margin: 0; color: var(--slate); font-size: 12px; line-height: 1.6; }
+    .repo { display: inline-block; margin: 5px 0 14px; padding: 7px 11px; border-radius: 9px; color: var(--blue); background: var(--blue-soft); font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .channel-visual { display: flex; align-items: center; gap: 7px; margin: 18px 0; }
+    .gopher { display: grid; place-items: center; flex: 0 0 39px; height: 39px; border-radius: 12px; color: var(--blue); background: var(--blue-soft); font-size: 14px; font-weight: 800; }
+    .stream-dots { flex: 1; display: flex; justify-content: space-around; }
+    .stream-dots i { display: block; width: 7px; height: 7px; background: #78baff; border-radius: 50%; }
+    .stream-dots i:nth-child(2), .stream-dots i:nth-child(5) { transform: translateY(-8px); }
+    .stream-dots i:nth-child(3) { transform: translateY(8px); }
+    .stream-label { color: var(--steel); font-size: 9px; white-space: nowrap; }
+    .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .principle { padding: 21px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .principle-no { color: var(--blue); font-size: 10px; font-weight: 700; letter-spacing: .1em; }
+    .principle h3 { margin: 8px 0 6px; font-size: 16px; }
+    .principle p { margin: 0; color: var(--slate); font-size: 11px; line-height: 1.55; }
+    .codebox { margin: 15px 0 0; padding: 12px 16px; background: #111b2b; border-radius: 13px; color: #e9f3ff; font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .codebox .kw { color: #75c5ff; }
+    .range-flow { display: grid; grid-template-columns: 1fr 36px 1fr 36px 1fr; align-items: center; gap: 8px; margin: 15px 0; }
+    .range-step { min-height: 86px; display: flex; flex-direction: column; justify-content: center; padding: 12px; text-align: center; border: 1px solid var(--line); border-radius: 14px; background: white; }
+    .range-step b { font-size: 12px; }
+    .range-step span { margin-top: 4px; color: var(--steel); font-size: 10px; line-height: 1.4; }
+    .range-arrow { color: var(--blue); text-align: center; font-size: 18px; }
+    .range-benefits { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; }
+    .benefit { padding: 12px; border-radius: 13px; background: white; border: 1px solid var(--line-soft); }
+    .benefit b { display: block; margin-bottom: 4px; font-size: 10px; }
+    .benefit span { display: block; color: var(--steel); font-size: 9px; line-height: 1.45; }
+    .pr-note { margin: 13px 0 0; text-align: center; color: var(--steel); font-size: 10px; }
+    .close h2 { max-width: 1000px; font-size: clamp(24px, 3.2vw, 36px); line-height: 1.25; }
+    .dots { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: var(--pill); background: #cdd5df; cursor: pointer; transition: width .2s, background .2s; }
+    .dot.active { width: 24px; background: var(--blue); }
+    .controls { display: flex; gap: 8px; }
+    .nav-btn { width: 36px; height: 36px; display: grid; place-items: center; padding: 0; color: var(--slate); border: 1px solid var(--line); border-radius: 50%; background: white; cursor: pointer; transition: background .15s, color .15s; }
+    .nav-btn:hover:not(:disabled) { color: var(--blue); background: var(--blue-soft); }
+    .nav-btn:disabled { opacity: .32; cursor: default; }
+    .nav-btn.next { width: auto; display: flex; gap: 8px; padding: 0 15px; color: white; border-color: var(--blue); background: var(--blue); border-radius: var(--pill); font-size: 11px; font-weight: 600; }
+    .nav-btn.next:hover:not(:disabled) { background: #005fe5; }
+    :focus-visible { outline: 3px solid rgba(0,106,255,.35); outline-offset: 3px; }
+    @media (max-width: 720px) {
+      body { padding: 0; }
+      .deck { width: 100%; height: 100svh; min-height: 0; border: 0; border-radius: 0; }
+      .topbar, .bottombar { height: 58px; padding: 0 16px; }
+      .slide { padding: 30px 22px; }
+      .coin-grid { grid-template-columns: 1fr 44px 1fr; gap: 8px; }
+      .coin-center { width: 38px; height: 38px; font-size: 9px; }
+      .coin-card { min-height: 190px; padding: 15px; }
+      .coin-card strong { font-size: 21px; }
+      .coin-card p { font-size: 11px; }
+      .architecture { grid-template-columns: 1fr 78px 1fr; gap: 7px; }
+      .bottom-facts { gap: 6px; }
+      .fact { padding: 9px; }
+      .relay-diagram { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+      .consumer-grid { grid-template-columns: 1fr 1fr; }
+      .relay-pipeline { grid-template-columns: 1fr; gap: 4px; }
+      .pipeline-arrow { transform: rotate(90deg); }
+      .relay-concurrency { grid-template-columns: 1fr; }
+      .relay-concurrency .consumer-card { min-height: 0; }
+      .relay-node { padding: 17px 9px; }
+      .relay-node h3 { font-size: 17px; }
+      .pds-mini, .app-node { padding: 9px 8px; font-size: 9px; }
+      .faq-row { grid-template-columns: .9fr 1.4fr; gap: 10px; padding: 11px; }
+      .range-flow { grid-template-columns: 1fr 20px 1fr 20px 1fr; gap: 4px; }
+      .range-step { padding: 8px; }
+    }
+    @media (max-width: 500px) {
+      .brand-kicker { font-size: 8px; }
+      .brand-title { font-size: 10px; }
+      .counter { font-size: 10px; padding: 6px 9px; }
+      .slide { padding: 24px 17px; }
+      .section-head { margin-bottom: 18px; }
+      .section-head p { font-size: 12px; }
+      .coin-grid { grid-template-columns: 1fr; }
+      .coin-center { width: 36px; height: 36px; margin: -2px auto; }
+      .coin-card { min-height: auto; }
+      .coin-card strong { margin: 10px 0 3px; }
+      .coin-card p { font-size: 10px; }
+      .reason-grid, .consumer-grid, .go-layout, .principles, .relay-concurrency { grid-template-columns: 1fr; gap: 9px; }
+      .reason-card { min-height: 0; padding: 15px; }
+      .reason-card .number { margin-bottom: 7px; }
+      .reason-card p { font-size: 11px; }
+      .intro-card { grid-template-columns: 72px 1fr; gap: 14px; padding: 18px; }
+      .avatar { width: 68px; height: 68px; font-size: 23px; }
+      .intro-card h3 { font-size: 20px; }
+      .intro-card .role, .intro-card p:last-child { font-size: 11px; }
+      .architecture { grid-template-columns: 1fr 1fr; }
+      .architecture > .flow { display: none; }
+      .node-stack { grid-column: span 2; grid-row: 1; }
+      .pds { grid-column: span 2; grid-row: 2; padding: 12px; }
+      .bottom-facts { grid-template-columns: 1fr; }
+      .fact { padding: 8px 10px; }
+      .relay-diagram { grid-template-columns: 1fr; }
+      .pds-cloud { grid-template-columns: repeat(3, 1fr); }
+      .pds-mini { justify-content: center; font-size: 8px; }
+      .relay-diagram > .two-way { transform: rotate(90deg); justify-content: center; height: 18px; }
+      .apps { grid-template-columns: 1fr 1fr; }
+      .relay-bottom, .split-line { grid-template-columns: 1fr; gap: 7px; }
+      .faq-row { grid-template-columns: 1fr; gap: 4px; }
+      .faq-row p { font-size: 10px; }
+      .go-card { min-height: 0; padding: 16px; }
+      .go-card p { font-size: 10px; }
+      .principle { padding: 15px; }
+      .consumer-card { padding: 13px; }
+      .range-flow { grid-template-columns: 1fr; }
+      .range-arrow { transform: rotate(90deg); }
+      .range-step { min-height: 58px; }
+      .range-benefits { grid-template-columns: 1fr; gap: 6px; }
+      .benefit { padding: 9px 11px; }
+      .benefit span { font-size: 9px; }
+      .close h2 { font-size: 24px; }
+      .dots { gap: 4px; }
+      .dot { width: 6px; height: 6px; }
+      .dot.active { width: 17px; }
+      .nav-btn { width: 32px; height: 32px; }
+      .nav-btn.next { padding: 0 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" aria-label="Bluesky technical presentation">
+    <header class="topbar">
+      <div class="brand">
+        <div class="butterfly" aria-hidden="true"><svg viewBox="0 0 568 501"><path d="M123.121 33.664C188.241 82.553 258.281 181.68 284 234.873c25.719-53.192 95.759-152.32 160.879-201.209C491.801-1.848 568-24.977 568 64.225c0 17.842-10.222 150.05-16.227 171.503-20.912 74.707-96.953 93.753-164.269 82.353 117.653 20.06 147.288 88.082 82.723 154.249-74.832 76.697-157.067-18.06-180.207-68.514-4.84-10.556-5.834-12.716-6.02-9.429-.186-3.287-1.18-1.127-6.02 9.429-23.14 50.454-105.375 145.211-180.207 68.514-64.565-66.167-34.93-134.189 82.723-154.249-67.316 11.4-143.357-7.646-164.269-82.353C10.222 214.275 0 82.067 0 64.225 0-24.977 76.199-1.848 123.121 33.664z"/></svg></div>
+        <div><div class="brand-title">Bluesky (AT Protocol) は何を分散化したのか？</div></div>
+      </div>
+      <div class="counter" id="counter" aria-live="polite">01 / 10</div>
+    </header>
+
+    <main class="stage" id="stage">
+      <section class="slide cover active" data-slide="0" aria-label="タイトル">
+        <div class="cover-mark" aria-hidden="true"><svg viewBox="0 0 568 501"><path d="M123.121 33.664C188.241 82.553 258.281 181.68 284 234.873c25.719-53.192 95.759-152.32 160.879-201.209C491.801-1.848 568-24.977 568 64.225c0 17.842-10.222 150.05-16.227 171.503-20.912 74.707-96.953 93.753-164.269 82.353 117.653 20.06 147.288 88.082 82.723 154.249-74.832 76.697-157.067-18.06-180.207-68.514-4.84-10.556-5.834-12.716-6.02-9.429-.186-3.287-1.18-1.127-6.02 9.429-23.14 50.454-105.375 145.211-180.207 68.514-64.565-66.167-34.93-134.189 82.723-154.249-67.316 11.4-143.357-7.646-164.269-82.353C10.222 214.275 0 82.067 0 64.225 0-24.977 76.199-1.848 123.121 33.664z"/></svg></div>
+        <div class="tag"><span class="tag-dot"></span>データは分散、計算リソースは集約</div>
+        <h1>Blueskyは何を<br><span>分散化したのか？</span></h1>
+        <p class="lead">「分散型SNS」を、データと計算リソースに分けて考える。</p>
+        <div class="hint">開始するには <kbd>Space</kbd> または <kbd>→</kbd></div>
+      </section>
+
+      <section class="slide" data-slide="1" aria-label="何を分散化したか">
+        <div class="section-head"><div class="eyebrow">結論</div><h2>データは<span class="blue">分散。</span>計算リソースは集約。</h2><p>この二つは、AT Protocolの設計を理解するうえでの表と裏。</p></div>
+        <div class="coin-grid">
+          <article class="coin-card good"><div class="coin-symbol"><span class="mode">分散</span> データの置き場所</div><div><strong>データ主権</strong><p>投稿やプロフィールを自分で選んだPDSに保存し、必要に応じて移行できる。</p><div class="mini-network" aria-label="複数のPDSにデータが分散"><span>PDS A</span><i></i><span>PDS B</span><i></i><span>PDS C</span></div></div></article>
+          <div class="coin-center" aria-label="対比">対比</div>
+          <article class="coin-card dark"><div class="coin-symbol"><span class="mode">集約</span> 計算リソースと配信</div><div><strong>計算リソース</strong><p>全体の投稿を処理するRelayなどの計算リソースは、中央に集約される。</p><div class="mini-network" aria-label="データがRelayに集約"><span>PDS</span><i></i><span>Relay</span></div></div></article>
+        </div>
+        <div class="callout"><b>データの置き場所は選べる一方、全体のデータを扱う仕組みはRelayに集約する。</b></div>
+      </section>
+
+      <section class="slide" data-slide="2" aria-label="なぜこの設計か">
+        <div class="section-head"><div class="eyebrow">なぜBluesky（AT Protocol）はこの設計を選んだのか？</div><h2>データ独占へのアンチテーゼ</h2><p>すべてを分散するのではなく、データ主権を優先した。</p></div>
+        <div class="reason-grid">
+          <article class="reason-card"><span class="number">01</span><h3>データを特定企業に囲い込ませない</h3><p>アカウントや投稿を特定企業のデータベースに縛らず、別のPDSへ移せるようにする。</p></article>
+          <article class="reason-card"><span class="number">02</span><h3>計算リソースは集約</h3><p>全体のデータを検索・配信する処理を集約し、サービスを使いやすくする。</p></article>
+        </div>
+        <div class="tradeoff">データ主権🌕と計算リソースの中央集権🌑<br>コイン🪙の表裏として、どちらも重要。</div>
+      </section>
+
+      <section class="slide" data-slide="3" aria-label="自己紹介">
+        <div class="section-head" style="text-align:center"><div class="eyebrow">発表者</div><h2>自己紹介</h2></div>
+        <div class="intro-card">
+          <div class="avatar" aria-hidden="true">YOU</div>
+          <div><h3>［あなたのお名前］</h3><p class="role">［所属・肩書き／関心領域］</p><p>Blueskyの分散設計と、それを支えるGoの実装について話します。</p></div>
+        </div>
+        <p class="edit-note">Blueskyの非公式デザインシステムをAIに読み込ませてHTMLを生成しました。</p>
+      </section>
+
+      <section class="slide" data-slide="4" aria-label="データ主権とPDS">
+        <div class="section-head"><div class="eyebrow">🪙 コインの表 🌕</div><h2>データポータビリティの保証</h2><p>一つのDIDを保ったまま、データを別のPDSへ移行できる。</p></div>
+        <div class="architecture">
+          <div class="node-stack">
+            <div class="node"><h3><span class="node-icon">ID</span> DIDと署名</h3><p>DIDはAT Protocol共通のアカウントID。公開鍵をDIDから参照し、投稿の署名を検証する。</p></div>
+          </div>
+          <div class="flow"><span>DIDはそのまま</span><div class="flow-line"></div><span>PDSを移行</span></div>
+          <div class="pds"><span class="node-icon">▤</span><h3>PDS</h3><p>Personal Data Server<br>投稿・プロフィールの保管場所</p><div class="pds-options"><span class="pds-option">PDS A</span><span class="pds-move">→</span><span class="pds-option">PDS B</span></div><div class="pds-options-label">移行先の例</div></div>
+        </div>
+        <div class="bottom-facts">
+          <div class="fact"><b>物理的に分散</b><span>別々の事業者・サーバーで運用できる</span></div>
+          <div class="fact"><b>ポータビリティ</b><span>何かあっても別のPDSに移行可能</span></div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="5" aria-label="Relayによるデータ集約">
+        <div class="section-head"><div class="eyebrow">🪙 コインの裏 🌑</div><h2>Relayが全体のデータを束ねる</h2><p>各PDSから更新を受け取り、アプリが利用できるストリームとして配信する。</p></div>
+        <div class="relay-diagram">
+          <div class="pds-cloud"><div class="pds-mini"><i>P</i>PDS A</div><div class="pds-mini"><i>P</i>PDS B</div><div class="pds-mini"><i>P</i>PDS C</div></div>
+          <div class="two-way" aria-label="データの流れ">⟶</div>
+          <div class="relay-node"><div class="relay-icon">≋</div><h3>Relay</h3><p>PDSのイベントを集約<br>購読用のストリームを提供</p></div>
+          <div class="two-way" aria-label="データの流れ">⟶</div>
+          <div class="apps"><div class="app-node">Bluesky<small>公式アプリ</small></div><div class="app-node">他のアプリ<small>独自の体験を構築</small></div></div>
+        </div>
+        <p class="diagram-caption">アプリはBlueskyのAPIを使うか、独自にRelay購読用のストリームを運用する。</p>
+        <div class="relay-bottom"><div><b>Relayを購読すれば</b>複数のPDSにある広い範囲の投稿をまとめて扱える。</div><div><b>Fediverseとの違い</b> MastodonやMisskeyではサーバー同士が連合するのに対し、AT ProtocolではRelayがPDSのイベントを集約する。アプリはそのストリームを利用できる。</div></div>
+      </section>
+
+      <section class="slide" data-slide="6" aria-label="BlueskyのFAQ">
+        <div class="section-head"><div class="eyebrow">よくある質問</div><h2>BlueskyのFAQ</h2><p>「分散型」が何を指すのか、仕組みごとに整理する。</p></div>
+        <div class="faq-list">
+          <div class="faq-row"><strong>AT ProtocolとBlueskyは同じ？</strong><p><b>別のもの。</b>AT Protocolはデータ主権を支えるプロトコル。Blueskyはその上にあるSNSで、Bluesky社はRelayなどの基盤も提供する。</p></div>
+          <div class="faq-row"><strong>Relayは中央集権では？</strong><p><span class="yes">はい。</span>Relayは集約型。データ主権を優先し、それ以外の部分では使いやすさとの両立を図っている。</p></div>
+          <div class="faq-row"><strong>アカウントの検閲リスクは？</strong><p>単一事業者への依存はリスクになる。アカウント管理を第三者機関へ移管できれば、特定企業への依存を減らせる。</p></div>
+          <div class="faq-row"><strong>データを独占できないのに、どう稼ぐ？</strong><p>SNSは広告で稼ぐ場から社会インフラへ変わるべきだと考える。有料プランやサードパーティアプリのロイヤリティも収益源にし、利用者・開発者・運営者に利益が回る形を目指す。</p></div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="7" aria-label="RelayはGoで動く">
+        <div class="section-head"><div class="eyebrow">Relayを支えるGo</div><h2>ユーザー向けの機能はTS、<br>高負荷な基盤処理はGo</h2><p>BlueskyはTypeScriptとGoを組み合わせている。</p></div>
+        <div class="go-layout">
+          <article class="go-card"><div class="mini-eyebrow">言語ごとの役割</div><div class="lang-pair"><div class="lang"><b>TS</b><small>アプリ・API</small></div><div class="lang-arrow">↔</div><div class="lang"><b class="blue">Go</b><small>高性能な基盤</small></div></div><p>Relayのように大量のイベントを並行処理する基盤には、Goを使う。</p></article>
+          <article class="go-card"><div class="mini-eyebrow">Goの実装</div><h3>Relayはストリーム処理</h3><span class="repo">bluesky-social/indigo</span><div class="channel-visual" aria-hidden="true"><span class="gopher">Go</span><span class="stream-dots"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="stream-label">イベント →</span><span class="gopher">API</span></div><p>イベントを並行して受け取り、処理し、配信する。Goの並行処理機能が生きる領域。</p></article>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="8" aria-label="Relayのイベント処理">
+        <div class="section-head"><div class="eyebrow">Relay Firehose</div><h2>PDSのイベントを集約し、購読者へ配信</h2><p>Relayは分散したPDSからイベントを受け取り、用途の異なるサービスへ流す。</p></div>
+        <div class="relay-pipeline">
+          <div class="pipeline-step"><b>PDS WebSocket</b><span>イベントを受信</span></div><div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><b>CBOR</b><span>イベントをデコード</span></div><div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><b>Relay</b><span>処理・配信用に準備</span></div><div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><b>Firehose</b><span>購読者へ配信</span></div>
+        </div>
+        <div class="consumer-grid">
+          <article class="consumer-card"><span class="consumer-tool">AppView</span><h3>アプリの表示</h3><p>タイムラインやプロフィールの状態を作るため、Relayを直接購読する。</p></article>
+          <article class="consumer-card"><span class="consumer-tool">hepa · sonar</span><h3>モデレーションと監視</h3><p>投稿イベントを使った自動モデレーションや、イベント量の監視に使う。</p></article>
+          <article class="consumer-card"><span class="consumer-tool">rainbow · Jetstream · TAP</span><h3>配信・アプリ連携</h3><p>内部サービスへの分配、条件で絞ったイベント配信、Webhook通知にも使われる。</p></article>
+        </div>
+        <div class="callout">イベントはCBORで読み込み、配信前に一度シリアライズする。複数の購読者には同じバイト列を配る。</div>
+      </section>
+
+      <section class="slide" data-slide="9" aria-label="RelayとGoの並行処理">
+        <div class="section-head"><div class="eyebrow">Goの並行処理</div><h2>Relayはgoroutineとchannelでイベントをさばく</h2><p>並行処理はRelayの実装の中心にある。</p></div>
+        <div class="relay-concurrency">
+          <article class="consumer-card"><span class="consumer-tool">worker pool</span><h3>イベント処理を分担</h3><p>共有channelからタスクを受け取り、複数のworker goroutineが処理する。</p></article>
+          <article class="consumer-card"><span class="consumer-tool">subscriber fan-out</span><h3>購読者へ並行配信</h3><p>バッファが満杯の購読者には待たずに送信を打ち切り、遅い購読者を切り離す。</p></article>
+          <article class="consumer-card"><span class="consumer-tool">CSP</span><h3>安全な非同期処理インターフェース</h3><p>CSPという並行処理理論に基づき、goroutineとchannelで処理間の通信を組み立てる。</p></article>
+        </div>
+        <div class="callout"><b>Goの強み:</b> 低レイヤーのスレッドや非同期I/Oを直接扱わずに、CSPに基づく安全なプロセス間通信をgoroutineとchannelで記述できる。Goランタイム内部ではパフォーマンスも最適化されている。</div>
+        <p class="pr-note">この両立は、メジャーなプログラミング言語でもあまりない気がする。</p>
+      </section>
+
+      <section class="slide" data-slide="10" aria-label="range over func">
+        <div class="section-head"><div class="eyebrow">Goのイテレータ</div><h2>range over funcはWebSocket接続管理に向いている</h2><p>接続とイベント受信をイテレータにまとめ、呼び出し側はイベント処理に集中する。</p></div>
+        <div class="go-layout">
+          <article class="go-card"><div class="mini-eyebrow">イテレータ側</div><h3>WebSocketの接続を管理</h3><p>接続、イベントの受信、終了処理をまとめる。</p></article>
+          <article class="go-card"><div class="mini-eyebrow">ハンドラ側</div><h3>for rangeでイベントを処理</h3><div class="codebox"><span class="kw">for</span> msg, err := <span class="kw">range</span> client.Seq(ctx) {<br>&nbsp;&nbsp;handle(msg)<br>}</div></article>
+        </div>
+        <div class="callout">ループが<code>break</code>した時に、イテレータ側の<code>defer</code>で確実に後始末できるのもGoの特徴。</div>
+      </section>
+
+      <section class="slide close" data-slide="11" aria-label="まとめ">
+        <div class="eyebrow">結論</div>
+        <h2>Blueskyのコインの裏（Relay＝データ集約ストリーム）は<br><span class="blue">Goが支えている</span></h2>
+      </section>
+    </main>
+
+    <footer class="bottombar">
+      <div class="dots" id="dots" aria-label="スライド選択"></div>
+      <div class="controls">
+        <button class="nav-btn" id="prev" aria-label="前のスライド" title="前へ (←)">←</button>
+        <button class="nav-btn next" id="next" aria-label="次のスライド" title="次へ (→)"><span>次へ</span><span aria-hidden="true">→</span></button>
+      </div>
+    </footer>
+  </div>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const dots = document.getElementById('dots');
+      const counter = document.getElementById('counter');
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+      let current = 0;
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `スライド ${index + 1} へ`);
+        dot.addEventListener('click', () => show(index));
+        dots.appendChild(dot);
+      });
+      const dotButtons = [...dots.children];
+
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === current);
+          slide.setAttribute('aria-hidden', String(i !== current));
+        });
+        dotButtons.forEach((dot, i) => {
+          dot.classList.toggle('active', i === current);
+          dot.setAttribute('aria-current', i === current ? 'step' : 'false');
+        });
+        counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        prev.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+      }
+      function forward() { show(current + 1); }
+      function backward() { show(current - 1); }
+
+      prev.addEventListener('click', backward);
+      next.addEventListener('click', forward);
+      window.addEventListener('keydown', (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+        if (['ArrowRight', ' ', 'Enter', 'PageDown'].includes(event.key)) {
+          event.preventDefault(); forward();
+        } else if (['ArrowLeft', 'PageUp'].includes(event.key)) {
+          event.preventDefault(); backward();
+        } else if (event.key === 'Home') show(0);
+        else if (event.key === 'End') show(slides.length - 1);
+      });
+      let touchStart = null;
+      document.getElementById('stage').addEventListener('touchstart', (event) => {
+        touchStart = event.changedTouches[0].clientX;
+      }, { passive: true });
+      document.getElementById('stage').addEventListener('touchend', (event) => {
+        if (touchStart === null) return;
+        const delta = event.changedTouches[0].clientX - touchStart;
+        if (Math.abs(delta) > 55) delta < 0 ? forward() : backward();
+        touchStart = null;
+      }, { passive: true });
+      show(0);
+    })();
+  </script>
+</body>
+</html>
