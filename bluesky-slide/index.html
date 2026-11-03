@@ -96,15 +96,12 @@
     h1 { max-width: 850px; margin-bottom: 17px; font-size: clamp(38px, 6vw, 68px); line-height: 1.08; letter-spacing: -.055em; font-weight: 700; }
     h2 { margin-bottom: 8px; font-size: clamp(27px, 3.4vw, 42px); line-height: 1.12; letter-spacing: -.045em; font-weight: 700; }
     h3 { margin-bottom: 8px; font-size: 17px; line-height: 1.3; }
-    .lead { max-width: 730px; margin-bottom: 0; color: var(--slate); font-size: clamp(15px, 1.7vw, 19px); line-height: 1.65; }
-    .cover .lead { max-width: 650px; }
-    .tag { display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin-bottom: 22px; padding: 8px 13px; color: var(--blue); background: var(--blue-soft); border: 1px solid #d2e7ff; border-radius: var(--pill); font-size: 11px; font-weight: 700; }
-    .tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px rgba(0,106,255,.1); }
     .cover h1 span, .blue { color: var(--blue); }
-    .cover-mark { display: grid; place-items: center; width: 90px; height: 90px; margin-bottom: 25px; color: var(--blue); background: white; border: 1px solid var(--line); border-radius: 28px; box-shadow: 0 10px 28px rgba(0,106,255,.09); }
-    .cover-mark svg { width: 48px; height: 48px; fill: currentColor; }
-    .hint { margin-top: 30px; color: var(--steel); font-size: 11px; }
-    kbd { padding: 3px 6px; background: #fff; border: 1px solid var(--line); border-radius: 6px; color: var(--slate); font: 10px ui-monospace, monospace; }
+    .cover-image { display: block; max-width: min(82vw, 560px); max-height: min(42vh, 320px); width: auto; height: auto; object-fit: contain; margin: 0 0 8px; }
+    .cover-handle { margin: 0; color: var(--steel); font-size: 8px; line-height: 1.4; }
+    .image-only h2 { margin-bottom: 12px; }
+    .image-only .slide-image { justify-self: center; max-height: min(44vh, 360px); }
+    .slide-image { display: block; width: min(82vw, 540px); max-height: min(50vh, 400px); height: auto; object-fit: contain; }
     .section-head { margin-bottom: 25px; }
     .section-head p { margin-bottom: 0; color: var(--slate); font-size: 14px; line-height: 1.55; }
     .coin-grid { display: grid; grid-template-columns: 1fr 76px 1fr; align-items: stretch; gap: 16px; }
@@ -169,6 +166,8 @@
     .flow { display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--blue); font-size: 10px; font-weight: 700; text-align: center; }
     .flow-line { width: 100%; height: 2px; position: relative; background: #a8d2ff; }
     .flow-line::after { position: absolute; top: -4px; right: -1px; content: ""; border: 5px solid transparent; border-left-color: var(--blue); }
+    .flow-line.reverse { transform: rotate(180deg); }
+    .flow-mobile-arrow { display: none; }
     .pds { padding: 22px 14px; border: 1.5px solid #98c8ff; border-radius: 19px; text-align: center; background: linear-gradient(160deg, white, var(--blue-soft)); }
     .pds .node-icon { width: 37px; height: 37px; margin: 0 auto 9px; border-radius: 12px; font-size: 16px; }
     .pds h3 { justify-content: center; font-size: 19px; }
@@ -299,9 +298,11 @@
       .intro-card h3 { font-size: 20px; }
       .intro-card .role, .intro-card p:last-child { font-size: 11px; }
       .architecture { grid-template-columns: 1fr 1fr; }
-      .architecture > .flow { display: none; }
-      .node-stack { grid-column: span 2; grid-row: 1; }
-      .pds { grid-column: span 2; grid-row: 2; padding: 12px; }
+      .pds { grid-column: span 2; grid-row: 1; padding: 12px; }
+      .architecture > .flow { grid-column: span 2; grid-row: 2; flex-direction: row; justify-content: center; gap: 7px; }
+      .flow-line.reverse { display: none; }
+      .flow-mobile-arrow { display: inline; }
+      .node-stack { grid-column: span 2; grid-row: 3; }
       .bottom-facts { grid-template-columns: 1fr; }
       .fact { padding: 8px 10px; }
       .relay-diagram { grid-template-columns: 1fr; }
@@ -346,11 +347,9 @@
 
     <main class="stage" id="stage">
       <section class="slide cover active" data-slide="0" aria-label="タイトル">
-        <div class="cover-mark" aria-hidden="true"><svg viewBox="0 0 568 501"><path d="M123.121 33.664C188.241 82.553 258.281 181.68 284 234.873c25.719-53.192 95.759-152.32 160.879-201.209C491.801-1.848 568-24.977 568 64.225c0 17.842-10.222 150.05-16.227 171.503-20.912 74.707-96.953 93.753-164.269 82.353 117.653 20.06 147.288 88.082 82.723 154.249-74.832 76.697-157.067-18.06-180.207-68.514-4.84-10.556-5.834-12.716-6.02-9.429-.186-3.287-1.18-1.127-6.02 9.429-23.14 50.454-105.375 145.211-180.207 68.514-64.565-66.167-34.93-134.189 82.723-154.249-67.316 11.4-143.357-7.646-164.269-82.353C10.222 214.275 0 82.067 0 64.225 0-24.977 76.199-1.848 123.121 33.664z"/></svg></div>
-        <div class="tag"><span class="tag-dot"></span>データは分散、計算リソースは集約</div>
-        <h1>Blueskyは何を<br><span>分散化したのか？</span></h1>
-        <p class="lead">「分散型SNS」を、データと計算リソースに分けて考える。</p>
-        <div class="hint">開始するには <kbd>Space</kbd> または <kbd>→</kbd></div>
+        <img class="cover-image" src="./cover.jpg" alt="GoのマスコットとBlueskyの蝶のイラスト">
+        <h1>Bluesky（AT Protocol）は何を<br><span>分散化したのか？</span></h1>
+        <p class="cover-handle">@taumu.bsky.social</p>
       </section>
 
       <section class="slide" data-slide="1" aria-label="何を分散化したか">
@@ -364,7 +363,7 @@
       </section>
 
       <section class="slide" data-slide="2" aria-label="なぜこの設計か">
-        <div class="section-head"><div class="eyebrow">なぜBluesky（AT Protocol）はこの設計を選んだのか？</div><h2>データ独占へのアンチテーゼ</h2><p>すべてを分散するのではなく、データ主権を優先した。</p></div>
+        <div class="section-head"><div class="eyebrow">なぜBluesky（AT Protocol）はこの設計を選んだのか？</div><h2>データ独占へのアンチテーゼ</h2><p>従来の中央集権型SNSでは、運営企業がユーザーの投稿から得る利益を独占し、不透明なモデレーション、広告、レコメンドをユーザーに押し付けられる構造だった。Blueskyは、すべてを分散するのではなく、データ主権を優先した。</p></div>
         <div class="reason-grid">
           <article class="reason-card"><span class="number">01</span><h3>データを特定企業に囲い込ませない</h3><p>アカウントや投稿を特定企業のデータベースに縛らず、別のPDSへ移せるようにする。</p></article>
           <article class="reason-card"><span class="number">02</span><h3>計算リソースは集約</h3><p>全体のデータを検索・配信する処理を集約し、サービスを使いやすくする。</p></article>
@@ -384,11 +383,11 @@
       <section class="slide" data-slide="4" aria-label="データ主権とPDS">
         <div class="section-head"><div class="eyebrow">🪙 コインの表 🌕</div><h2>データポータビリティの保証</h2><p>一つのDIDを保ったまま、データを別のPDSへ移行できる。</p></div>
         <div class="architecture">
-          <div class="node-stack">
-            <div class="node"><h3><span class="node-icon">ID</span> DIDと署名</h3><p>DIDはAT Protocol共通のアカウントID。公開鍵をDIDから参照し、投稿の署名を検証する。</p></div>
-          </div>
-          <div class="flow"><span>DIDはそのまま</span><div class="flow-line"></div><span>PDSを移行</span></div>
           <div class="pds"><span class="node-icon">▤</span><h3>PDS</h3><p>Personal Data Server<br>投稿・プロフィールの保管場所</p><div class="pds-options"><span class="pds-option">PDS A</span><span class="pds-move">→</span><span class="pds-option">PDS B</span></div><div class="pds-options-label">移行先の例</div></div>
+          <div class="flow"><span>署名</span><div class="flow-line reverse"></div><span class="flow-mobile-arrow" aria-hidden="true">↑</span></div>
+          <div class="node-stack">
+            <div class="node"><h3><span class="node-icon">ID</span> DIDと署名</h3><p>DIDはAT Protocolでグローバルにユニークなユーザー識別子。公開鍵をDIDから参照し、投稿の署名を検証する。</p></div>
+          </div>
         </div>
         <div class="bottom-facts">
           <div class="fact"><b>物理的に分散</b><span>別々の事業者・サーバーで運用できる</span></div>
@@ -406,7 +405,7 @@
           <div class="apps"><div class="app-node">Bluesky<small>公式アプリ</small></div><div class="app-node">他のアプリ<small>独自の体験を構築</small></div></div>
         </div>
         <p class="diagram-caption">アプリはBlueskyのAPIを使うか、独自にRelay購読用のストリームを運用する。</p>
-        <div class="relay-bottom"><div><b>Relayを購読すれば</b>複数のPDSにある広い範囲の投稿をまとめて扱える。</div><div><b>Fediverseとの違い</b> MastodonやMisskeyではサーバー同士が連合するのに対し、AT ProtocolではRelayがPDSのイベントを集約する。アプリはそのストリームを利用できる。</div></div>
+        <div class="relay-bottom"><div><b>Relay1つを購読するだけで</b>複数のPDSにある広い範囲の投稿をまとめて扱える。</div><div><b>Fediverseとの違い</b> MastodonやMisskeyではサーバー同士が連合するのに対し、AT ProtocolではRelayがPDSのイベントを集約する。アプリはそのストリームを利用できる。</div></div>
       </section>
 
       <section class="slide" data-slide="6" aria-label="BlueskyのFAQ">
@@ -419,7 +418,12 @@
         </div>
       </section>
 
-      <section class="slide" data-slide="7" aria-label="RelayはGoで動く">
+      <section class="slide image-only" data-slide="7" aria-label="ここまでのまとめとこれからの話">
+        <h2>ここまでのまとめとこれからの話</h2>
+        <img class="slide-image" src="./relay-go-diagram.png" alt="複数のPDSからRelayに集約し、Blueskyなどのサービスへ配信する構成図。Goのロゴを添えている。">
+      </section>
+
+      <section class="slide" data-slide="8" aria-label="RelayはGoで動く">
         <div class="section-head"><div class="eyebrow">Relayを支えるGo</div><h2>ユーザー向けの機能はTS、<br>高負荷な基盤処理はGo</h2><p>BlueskyはTypeScriptとGoを組み合わせている。</p></div>
         <div class="go-layout">
           <article class="go-card"><div class="mini-eyebrow">言語ごとの役割</div><div class="lang-pair"><div class="lang"><b>TS</b><small>アプリ・API</small></div><div class="lang-arrow">↔</div><div class="lang"><b class="blue">Go</b><small>高性能な基盤</small></div></div><p>Relayのように大量のイベントを並行処理する基盤には、Goを使う。</p></article>
@@ -427,7 +431,7 @@
         </div>
       </section>
 
-      <section class="slide" data-slide="8" aria-label="Relayのイベント処理">
+      <section class="slide" data-slide="9" aria-label="Relayのイベント処理">
         <div class="section-head"><div class="eyebrow">Relay Firehose</div><h2>PDSのイベントを集約し、購読者へ配信</h2><p>Relayは分散したPDSからイベントを受け取り、用途の異なるサービスへ流す。</p></div>
         <div class="relay-pipeline">
           <div class="pipeline-step"><b>PDS WebSocket</b><span>イベントを受信</span></div><div class="pipeline-arrow">→</div>
@@ -443,7 +447,7 @@
         <div class="callout">イベントはCBORで読み込み、配信前に一度シリアライズする。複数の購読者には同じバイト列を配る。</div>
       </section>
 
-      <section class="slide" data-slide="9" aria-label="RelayとGoの並行処理">
+      <section class="slide" data-slide="10" aria-label="RelayとGoの並行処理">
         <div class="section-head"><div class="eyebrow">Goの並行処理</div><h2>Relayはgoroutineとchannelでイベントをさばく</h2><p>並行処理はRelayの実装の中心にある。</p></div>
         <div class="relay-concurrency">
           <article class="consumer-card"><span class="consumer-tool">worker pool</span><h3>イベント処理を分担</h3><p>共有channelからタスクを受け取り、複数のworker goroutineが処理する。</p></article>
@@ -454,7 +458,7 @@
         <p class="pr-note">この両立は、メジャーなプログラミング言語でもあまりない気がする。</p>
       </section>
 
-      <section class="slide" data-slide="10" aria-label="range over func">
+      <section class="slide" data-slide="11" aria-label="range over func">
         <div class="section-head"><div class="eyebrow">Goのイテレータ</div><h2>range over funcはWebSocket接続管理に向いている</h2><p>接続とイベント受信をイテレータにまとめ、呼び出し側はイベント処理に集中する。</p></div>
         <div class="go-layout">
           <article class="go-card"><div class="mini-eyebrow">イテレータ側</div><h3>WebSocketの接続を管理</h3><p>接続、イベントの受信、終了処理をまとめる。</p></article>
@@ -463,7 +467,7 @@
         <div class="callout">ループが<code>break</code>した時に、イテレータ側の<code>defer</code>で確実に後始末できるのもGoの特徴。</div>
       </section>
 
-      <section class="slide close" data-slide="11" aria-label="まとめ">
+      <section class="slide close" data-slide="12" aria-label="まとめ">
         <div class="eyebrow">結論</div>
         <h2>Blueskyのコインの裏（Relay＝データ集約ストリーム）は<br><span class="blue">Goが支えている</span></h2>
       </section>
