@@ -106,31 +106,15 @@
     .section-head p { margin-bottom: 0; color: var(--slate); font-size: 14px; line-height: 1.55; }
     .coin-grid { display: grid; grid-template-columns: 1fr 76px 1fr; align-items: stretch; gap: 16px; }
     .coin-card { min-height: 210px; padding: clamp(20px, 3vw, 30px); display: flex; flex-direction: column; justify-content: space-between; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
-    .coin-card.good { color: white; border-color: var(--blue); background: var(--blue); }
-    .coin-card.dark { color: white; border-color: #0b0f19; background: #0b0f19; }
     .coin-symbol { display: flex; align-items: center; gap: 9px; color: var(--slate); font-size: 11px; font-weight: 700; }
     .coin-symbol .mode { padding: 5px 9px; border-radius: var(--pill); color: var(--blue); background: var(--blue-soft); font-size: 9px; letter-spacing: .04em; }
-    .coin-card.good .coin-symbol, .coin-card.dark .coin-symbol { color: rgba(255,255,255,.82); }
-    .coin-card.good .coin-symbol .mode { color: var(--blue); background: white; }
-    .coin-card.dark .coin-symbol .mode { color: white; background: #354358; }
-    .coin-card strong { display: block; margin: 9px 0 4px; font-size: clamp(24px, 3vw, 34px); letter-spacing: -.04em; }
+    .coin-card strong { display: block; margin: 9px 0 4px; font-size: clamp(18px, 2vw, 22px); letter-spacing: -.03em; }
     .coin-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.5; }
-    .coin-card.good p, .coin-card.dark p { color: rgba(255,255,255,.88); }
     .coin-center { display: grid; place-items: center; align-self: center; width: 54px; height: 54px; border: 1px solid var(--line); border-radius: 50%; color: var(--steel); background: white; font-size: 11px; font-weight: 700; box-shadow: 0 6px 18px rgba(35,66,105,.08); }
     .mini-network { height: 36px; display: flex; align-items: center; gap: 6px; margin-top: 13px; color: var(--blue); }
     .mini-network span { display: grid; place-items: center; min-width: 39px; height: 24px; padding: 0 7px; border: 1px solid #cfe4fb; border-radius: var(--pill); color: var(--slate); background: #fff; font-size: 8px; font-weight: 600; }
     .mini-network i { flex: 1; height: 1px; min-width: 8px; background: #a8d2ff; position: relative; }
     .mini-network i::after { position: absolute; top: -3px; right: 0; content: ""; border: 3px solid transparent; border-left-color: var(--blue); }
-    .coin-card.dark .mini-network { justify-content: center; color: var(--steel); }
-    .coin-card.dark .mini-network span { border-color: var(--line); }
-    .coin-card.dark .mini-network i { max-width: 42px; background: #c6ced8; }
-    .coin-card.dark .mini-network i::after { border-left-color: #8492a4; }
-    .coin-card.good .mini-network span { border-color: rgba(255,255,255,.65); color: var(--blue); background: white; }
-    .coin-card.good .mini-network i { background: rgba(255,255,255,.7); }
-    .coin-card.good .mini-network i::after { border-left-color: white; }
-    .coin-card.dark .mini-network span { border-color: rgba(255,255,255,.55); color: white; background: #1e293b; }
-    .coin-card.dark .mini-network i { background: #94a3b8; }
-    .coin-card.dark .mini-network i::after { border-left-color: #cbd5e1; }
     .callout { margin-top: 17px; padding: 13px 17px; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; color: var(--slate); background: #f0f6ff; font-size: 13px; line-height: 1.55; }
     .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .consumer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -146,10 +130,12 @@
     .relay-meta { margin: 0 0 10px; color: var(--steel); font-size: 10px; text-align: right; }
     .relay-concurrency { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .relay-concurrency .consumer-card { min-height: 142px; }
-    .reason-card { min-height: 150px; padding: 22px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
-    .reason-card .number { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-bottom: 14px; border-radius: 50%; color: var(--blue); background: var(--blue-soft); font-size: 11px; font-weight: 700; }
-    .reason-card:nth-child(2) .number { color: var(--ink); background: #f0f2f5; }
-    .reason-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
+    .reason-card { min-height: 170px; padding: 22px; color: white; border: 1px solid var(--blue); border-radius: var(--radius); background: var(--blue); }
+    .reason-card:nth-child(2) { border-color: #0b0f19; background: #0b0f19; }
+    .reason-card .number { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-bottom: 14px; border-radius: 50%; color: var(--blue); background: white; font-size: 11px; font-weight: 700; }
+    .reason-card:nth-child(2) .number { color: white; background: #354358; }
+    .reason-card h3 { margin-bottom: 8px; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.25; }
+    .reason-card p { margin: 0; color: rgba(255,255,255,.88); font-size: 13px; line-height: 1.6; }
     .tradeoff { margin-top: 24px; color: var(--ink); text-align: center; font-size: clamp(19px, 2.4vw, 27px); line-height: 1.45; font-weight: 700; letter-spacing: -.025em; }
     .intro-card { display: grid; grid-template-columns: 130px 1fr; gap: 26px; align-items: center; width: min(700px, 100%); margin: 0 auto; padding: 28px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
     .avatar { width: 118px; height: 118px; display: grid; place-items: center; color: var(--blue); background: linear-gradient(140deg, #f1f8ff, #dceeff); border: 1px solid #d4e8fc; border-radius: 50%; font-size: 36px; font-weight: 700; }
@@ -259,7 +245,7 @@
       .coin-grid { grid-template-columns: 1fr 44px 1fr; gap: 8px; }
       .coin-center { width: 38px; height: 38px; font-size: 9px; }
       .coin-card { min-height: 190px; padding: 15px; }
-      .coin-card strong { font-size: 21px; }
+      .coin-card strong { font-size: 18px; }
       .coin-card p { font-size: 11px; }
       .architecture { grid-template-columns: 1fr 78px 1fr; gap: 7px; }
       .bottom-facts { gap: 6px; }
@@ -348,25 +334,25 @@
     <main class="stage" id="stage">
       <section class="slide cover active" data-slide="0" aria-label="タイトル">
         <img class="cover-image" src="./cover.jpg" alt="GoのマスコットとBlueskyの蝶のイラスト">
-        <h1>Bluesky（AT Protocol）は何を<br><span>分散化したのか？</span></h1>
+        <h1>Blueskyは何を<br><span>分散化したのか？</span></h1>
         <p class="cover-handle">@taumu.bsky.social</p>
       </section>
 
       <section class="slide" data-slide="1" aria-label="何を分散化したか">
-        <div class="section-head"><div class="eyebrow">結論</div><h2>データは<span class="blue">分散。</span>計算リソースは集約。</h2><p>この二つは、AT Protocolの設計を理解するうえでの表と裏。</p></div>
+        <div class="section-head"><div class="eyebrow">既存SNSの課題</div><h2>ユーザーの投稿データと利益の独占</h2><p>UGC（ユーザーが作る投稿）を集め、そのデータから得られる利益を運営企業が独占できる構造だった。</p></div>
         <div class="coin-grid">
-          <article class="coin-card good"><div class="coin-symbol"><span class="mode">分散</span> データの置き場所</div><div><strong>データ主権</strong><p>投稿やプロフィールを自分で選んだPDSに保存し、必要に応じて移行できる。</p><div class="mini-network" aria-label="複数のPDSにデータが分散"><span>PDS A</span><i></i><span>PDS B</span><i></i><span>PDS C</span></div></div></article>
-          <div class="coin-center" aria-label="対比">対比</div>
-          <article class="coin-card dark"><div class="coin-symbol"><span class="mode">集約</span> 計算リソースと配信</div><div><strong>計算リソース</strong><p>全体の投稿を処理するRelayなどの計算リソースは、中央に集約される。</p><div class="mini-network" aria-label="データがRelayに集約"><span>PDS</span><i></i><span>Relay</span></div></div></article>
+          <article class="coin-card"><div class="coin-symbol"><span class="mode">UGC</span> ユーザー</div><div><strong>投稿を生み出す</strong><p>SNSのコンテンツをつくるのはユーザー。</p><div class="mini-network" aria-label="ユーザーが投稿を作成"><span>ユーザー</span><i></i><span>投稿</span></div></div></article>
+          <div class="coin-center" aria-label="価値の流れ">→</div>
+          <article class="coin-card"><div class="coin-symbol"><span class="mode">独占</span> プラットフォーム</div><div><strong>データと利益</strong><p>投稿データを集め、そこから得る利益を運営企業が握る。</p><div class="mini-network" aria-label="投稿データと利益が運営企業に集まる"><span>UGC</span><i></i><span>利益</span></div></div></article>
         </div>
-        <div class="callout"><b>データの置き場所は選べる一方、全体のデータを扱う仕組みはRelayに集約する。</b></div>
+        <div class="callout"><b>モデレーション、広告、レコメンドも運営側が決め、ユーザーに押し付けられる。APIやRSSフィードの提供も縮小されてきた。</b></div>
       </section>
 
       <section class="slide" data-slide="2" aria-label="なぜこの設計か">
-        <div class="section-head"><div class="eyebrow">なぜBluesky（AT Protocol）はこの設計を選んだのか？</div><h2>データ独占へのアンチテーゼ</h2><p>従来の中央集権型SNSでは、運営企業がユーザーの投稿から得る利益を独占し、不透明なモデレーション、広告、レコメンドをユーザーに押し付けられる構造だった。Blueskyは、すべてを分散するのではなく、データ主権を優先した。</p></div>
+        <div class="section-head"><div class="eyebrow">Bluesky（AT Protocol）の設計</div><h2>データ主権を分散し、計算リソースは中央に集約</h2><p>データの管理権は利用者側に置く一方、全体のデータを処理する計算リソースはRelayに集約した。</p></div>
         <div class="reason-grid">
-          <article class="reason-card"><span class="number">01</span><h3>データを特定企業に囲い込ませない</h3><p>アカウントや投稿を特定企業のデータベースに縛らず、別のPDSへ移せるようにする。</p></article>
-          <article class="reason-card"><span class="number">02</span><h3>計算リソースは集約</h3><p>全体のデータを検索・配信する処理を集約し、サービスを使いやすくする。</p></article>
+          <article class="reason-card"><span class="number">01</span><h3>データ主権を分散</h3><p>PDSを選び、必要なら別のPDSへデータを移行できる。</p></article>
+          <article class="reason-card"><span class="number">02</span><h3>計算リソースは中央に集約</h3><p>RelayがPDSからのイベントを集め、サービスへ配信する。</p></article>
         </div>
         <div class="tradeoff">データ主権🌕と計算リソースの中央集権🌑<br>コイン🪙の表裏として、どちらも重要。</div>
       </section>
