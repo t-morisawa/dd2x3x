@@ -103,19 +103,16 @@
     .abuse-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
     .callout { margin-top: 17px; padding: 13px 17px; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; color: var(--slate); background: #f0f6ff; font-size: 13px; line-height: 1.55; }
     .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .consumer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .consumer-card { padding: 17px 19px; background: white; border: 1px solid var(--line); border-radius: 16px; }
-    .consumer-card h3 { margin: 7px 0 5px; font-size: 14px; }
-    .consumer-card p { margin: 0; color: var(--slate); font-size: 11px; line-height: 1.55; }
-    .consumer-tool { color: var(--blue); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .relay-pipeline { display: grid; grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr; align-items: center; gap: 8px; margin: 8px 0 15px; }
-    .pipeline-step { min-height: 65px; display: flex; flex-direction: column; justify-content: center; padding: 9px 10px; text-align: center; border: 1px solid var(--line); border-radius: 13px; background: white; }
-    .pipeline-step b { color: var(--ink); font-size: 11px; }
-    .pipeline-step span { margin-top: 4px; color: var(--steel); font-size: 9px; }
-    .pipeline-arrow { color: var(--blue); text-align: center; font-size: 16px; }
-    .relay-meta { margin: 0 0 10px; color: var(--steel); font-size: 10px; text-align: right; }
-    .relay-concurrency { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .relay-concurrency .consumer-card { min-height: 142px; }
+    .relay-flow { display: grid; grid-template-columns: 130px 24px 1fr 24px 170px; align-items: center; gap: 10px; margin: 4px 0 2px; }
+    .rf-relay { padding: 16px; color: white; background: var(--blue); border-radius: 20px; box-shadow: 0 10px 23px rgba(0,106,255,.18); }
+    .rf-title { display: flex; align-items: baseline; gap: 10px; margin-bottom: 11px; }
+    .rf-title b { font-size: 20px; }
+    .rf-title code { color: rgba(255,255,255,.75); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .rf-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .rf-step { padding: 10px 11px; border-radius: 12px; background: rgba(255,255,255,.14); }
+    .rf-step span { display: block; font-size: 12px; font-weight: 700; }
+    .rf-step code { display: inline-block; margin: 6px 0 5px; padding: 3px 7px; border-radius: 7px; color: var(--blue); background: white; font: 600 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .rf-step p { margin: 0; color: rgba(255,255,255,.88); font-size: 10px; line-height: 1.5; }
     .reason-card { min-height: 170px; padding: 22px; color: white; border: 1px solid var(--blue); border-radius: var(--radius); background: var(--blue); }
     .reason-card:nth-child(2) { border-color: #0b0f19; background: #0b0f19; }
     .reason-card .number { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-bottom: 14px; border-radius: 50%; color: var(--blue); background: white; font-size: 11px; font-weight: 700; }
@@ -169,27 +166,31 @@
     .go-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .go-card { min-height: 210px; padding: 22px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
     .go-card .mini-eyebrow { margin-bottom: 12px; color: var(--steel); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    .lang-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin: 15px 0; }
-    .lang { padding: 13px 10px; border: 1px solid var(--line); border-radius: 13px; text-align: center; }
-    .lang b { display: block; font-size: 20px; }
-    .lang small { color: var(--steel); font-size: 9px; }
-    .lang-arrow { color: var(--blue); font-size: 18px; }
+    .lang-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .lang-card { padding: 18px 20px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .lang-card.go { border-color: #98c8ff; background: linear-gradient(160deg, white, var(--blue-soft)); }
+    .lang-head { display: flex; align-items: center; gap: 10px; }
+    .lang-badge { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; color: white; background: #3178c6; font-size: 13px; font-weight: 800; }
+    .go .lang-badge { background: #00add8; }
+    .lang-head b { display: block; font-size: 15px; }
+    .lang-head code { color: var(--steel); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .lang-role { margin: 10px 0 8px; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .svc-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+    .svc-list li { display: grid; grid-template-columns: 92px 1fr; gap: 10px; align-items: baseline; padding-top: 6px; border-top: 1px solid var(--line-soft); color: var(--slate); font-size: 11px; line-height: 1.45; }
+    .svc-list code { color: var(--blue); font: 600 11px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .lang-notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .lang-notes div { padding: 11px 14px; border: 1px solid var(--line); border-radius: 13px; background: white; color: var(--slate); font-size: 10px; line-height: 1.5; }
+    .lang-notes b { display: block; margin-bottom: 3px; color: var(--ink); font-size: 11px; }
+    .lang-notes code { color: var(--blue); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
     .go-card p { margin: 0; color: var(--slate); font-size: 12px; line-height: 1.6; }
-    .repo { display: inline-block; margin: 5px 0 14px; padding: 7px 11px; border-radius: 9px; color: var(--blue); background: var(--blue-soft); font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .channel-visual { display: flex; align-items: center; gap: 7px; margin: 18px 0; }
-    .gopher { display: grid; place-items: center; flex: 0 0 39px; height: 39px; border-radius: 12px; color: var(--blue); background: var(--blue-soft); font-size: 14px; font-weight: 800; }
-    .stream-dots { flex: 1; display: flex; justify-content: space-around; }
-    .stream-dots i { display: block; width: 7px; height: 7px; background: #78baff; border-radius: 50%; }
-    .stream-dots i:nth-child(2), .stream-dots i:nth-child(5) { transform: translateY(-8px); }
-    .stream-dots i:nth-child(3) { transform: translateY(8px); }
-    .stream-label { color: var(--steel); font-size: 9px; white-space: nowrap; }
     .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .principle { padding: 21px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
     .principle-no { color: var(--blue); font-size: 10px; font-weight: 700; letter-spacing: .1em; }
     .principle h3 { margin: 8px 0 6px; font-size: 16px; }
     .principle p { margin: 0; color: var(--slate); font-size: 11px; line-height: 1.55; }
-    .codebox { margin: 15px 0 0; padding: 12px 16px; background: #111b2b; border-radius: 13px; color: #e9f3ff; font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .codebox { overflow-x: auto; white-space: pre; margin: 15px 0 0; padding: 12px 16px; background: #111b2b; border-radius: 13px; color: #e9f3ff; font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
     .codebox .kw { color: #75c5ff; }
+    .codebox .cm { color: #7f93ad; }
     .range-flow { display: grid; grid-template-columns: 1fr 36px 1fr 36px 1fr; align-items: center; gap: 8px; margin: 15px 0; }
     .range-step { min-height: 86px; display: flex; flex-direction: column; justify-content: center; padding: 12px; text-align: center; border: 1px solid var(--line); border-radius: 14px; background: white; }
     .range-step b { font-size: 12px; }
@@ -216,15 +217,14 @@
       .topbar, .bottombar { height: 58px; padding: 0 16px; }
       .slide { padding: 30px 22px; }
       .bottom-facts { gap: 6px; }
+      .relay-flow { grid-template-columns: 1fr; gap: 6px; }
+      .relay-flow > .two-way { transform: rotate(90deg); justify-content: center; height: 16px; }
+      .relay-flow .pds-cloud, .relay-flow .apps { grid-template-columns: repeat(3, 1fr); }
+      .lang-notes { grid-template-columns: 1fr; gap: 6px; }
       .migrate-scene { padding: 10px 8px 4px; }
       .migrate-phase { position: static; transform: none; width: fit-content; max-width: 100%; margin: 0 auto 4px; font-size: 10px; white-space: normal; text-align: center; }
       .fact { padding: 9px; }
       .relay-diagram { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
-      .consumer-grid { grid-template-columns: 1fr 1fr; }
-      .relay-pipeline { grid-template-columns: 1fr; gap: 4px; }
-      .pipeline-arrow { transform: rotate(90deg); }
-      .relay-concurrency { grid-template-columns: 1fr; }
-      .relay-concurrency .consumer-card { min-height: 0; }
       .relay-node { padding: 17px 9px; }
       .relay-node h3 { font-size: 17px; }
       .pds-mini, .app-node { padding: 9px 8px; font-size: 9px; }
@@ -239,7 +239,15 @@
       .slide { padding: 24px 17px; }
       .section-head { margin-bottom: 18px; }
       .section-head p { font-size: 12px; }
-      .reason-grid, .consumer-grid, .go-layout, .principles, .relay-concurrency, .abuse-grid { grid-template-columns: 1fr; gap: 9px; }
+      .reason-grid, .go-layout, .principles, .abuse-grid { grid-template-columns: 1fr; gap: 9px; }
+      .rf-steps { gap: 5px; }
+      .rf-step { padding: 7px; }
+      .rf-step code { margin: 4px 0 0; padding: 2px 4px; font-size: 8px; white-space: normal; }
+      .rf-step p, .relay-flow .app-node small { display: none; }
+      .lang-split { gap: 8px; }
+      .lang-card { padding: 12px; }
+      .lang-head code, .svc-list span, .lang-notes { display: none; }
+      .svc-list li { grid-template-columns: 1fr; }
       .abuse-card { min-height: 0; padding: 15px; }
       .abuse-head { margin-bottom: 6px; }
       .abuse-icon { font-size: 20px; }
@@ -264,9 +272,10 @@
       .faq-row { grid-template-columns: 1fr; gap: 4px; }
       .faq-row p { font-size: 10px; }
       .go-card { min-height: 0; padding: 16px; }
-      .go-card p { font-size: 10px; }
+      .go-card .mini-eyebrow, .go-card p { display: none; }
+      .go-card h3 { margin: 0; font-size: 14px; }
+      .codebox { margin-top: 8px; padding: 9px 11px; font-size: 9px; }
       .principle { padding: 15px; }
-      .consumer-card { padding: 13px; }
       .range-flow { grid-template-columns: 1fr; }
       .range-arrow { transform: rotate(90deg); }
       .range-step { min-height: 58px; }
@@ -371,50 +380,76 @@
       </section>
 
       <section class="slide" data-slide="8" aria-label="RelayはGoで動く">
-        <div class="section-head"><div class="eyebrow">Relayを支えるGo</div><h2>ユーザー向けの機能はTS、<br>高負荷な基盤処理はGo</h2><p>BlueskyはTypeScriptとGoを組み合わせている。</p></div>
-        <div class="go-layout">
-          <article class="go-card"><div class="mini-eyebrow">言語ごとの役割</div><div class="lang-pair"><div class="lang"><b>TS</b><small>アプリ・API</small></div><div class="lang-arrow">↔</div><div class="lang"><b class="blue">Go</b><small>高性能な基盤</small></div></div><p>Relayのように大量のイベントを並行処理する基盤には、Goを使う。</p></article>
-          <article class="go-card"><div class="mini-eyebrow">Goの実装</div><h3>Relayはストリーム処理</h3><span class="repo">bluesky-social/indigo</span><div class="channel-visual" aria-hidden="true"><span class="gopher">Go</span><span class="stream-dots"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="stream-label">イベント →</span><span class="gopher">API</span></div><p>イベントを並行して受け取り、処理し、配信する。Goの並行処理機能が生きる領域。</p></article>
+        <div class="section-head"><div class="eyebrow">Relayを支えるGo</div><h2>ユーザー向けの機能はTS、<br>高負荷な基盤処理はGo</h2><p>atproto（TypeScript）とindigo（Go）の2つのリポジトリで役割を分けている。</p></div>
+        <div class="lang-split">
+          <article class="lang-card">
+            <div class="lang-head"><span class="lang-badge">TS</span><div><b>TypeScript</b><code>bluesky-social/atproto</code></div></div>
+            <p class="lang-role">リクエストに応えるAPI・SDK</p>
+            <ul class="svc-list">
+              <li><code>PDS</code><span>ユーザーのデータを保管し、APIを提供</span></li>
+              <li><code>AppView</code><span>タイムラインなど app.bsky.* のAPI</span></li>
+              <li><code>Ozone</code><span>モデレーション用のサービス</span></li>
+              <li><code>SDK・OAuth</code><span>アプリ開発者向けのクライアント</span></li>
+            </ul>
+          </article>
+          <article class="lang-card go">
+            <div class="lang-head"><span class="lang-badge">Go</span><div><b>Go</b><code>bluesky-social/indigo</code></div></div>
+            <p class="lang-role">全PDSのイベントを流し続ける基盤</p>
+            <ul class="svc-list">
+              <li><code>Relay</code><span>全PDSを購読し、Firehoseとして再配信</span></li>
+              <li><code>rainbow</code><span>Firehoseを多数の購読者へfan-out</span></li>
+              <li><code>Tap</code><span>同期・バックフィル・署名検証</span></li>
+              <li><code>hepa</code><span>イベントを見て自動モデレーション</span></li>
+            </ul>
+          </article>
+        </div>
+        <div class="lang-notes">
+          <div><b>使い分けの軸</b>APIのリクエスト処理はTS、ネットワーク全体のストリーム処理はGo</div>
+          <div><b>連携の例</b>Tap本体はGo製。TSからは <code>@atproto/tap</code> クライアントで使う</div>
+          <div><b>共通の基盤</b>DID解決・署名・MST・Lexicon検証は両言語で実装</div>
         </div>
       </section>
 
       <section class="slide" data-slide="9" aria-label="Relayのイベント処理">
-        <div class="section-head"><div class="eyebrow">Relay Firehose</div><h2>PDSのイベントを集約し、購読者へ配信</h2><p>Relayは分散したPDSからイベントを受け取り、用途の異なるサービスへ流す。</p></div>
-        <div class="relay-pipeline">
-          <div class="pipeline-step"><b>PDS WebSocket</b><span>イベントを受信</span></div><div class="pipeline-arrow">→</div>
-          <div class="pipeline-step"><b>CBOR</b><span>イベントをデコード</span></div><div class="pipeline-arrow">→</div>
-          <div class="pipeline-step"><b>Relay</b><span>処理・配信用に準備</span></div><div class="pipeline-arrow">→</div>
-          <div class="pipeline-step"><b>Firehose</b><span>購読者へ配信</span></div>
-        </div>
-        <div class="consumer-grid">
-          <article class="consumer-card"><span class="consumer-tool">AppView</span><h3>アプリの表示</h3><p>タイムラインやプロフィールの状態を作るため、Relayを直接購読する。</p></article>
-          <article class="consumer-card"><span class="consumer-tool">hepa · sonar</span><h3>モデレーションと監視</h3><p>投稿イベントを使った自動モデレーションや、イベント量の監視に使う。</p></article>
-          <article class="consumer-card"><span class="consumer-tool">rainbow · Jetstream · TAP</span><h3>配信・アプリ連携</h3><p>内部サービスへの分配、条件で絞ったイベント配信、Webhook通知にも使われる。</p></article>
-        </div>
-        <div class="callout">イベントはCBORで読み込み、配信前に一度シリアライズする。複数の購読者には同じバイト列を配る。</div>
-      </section>
-
-      <section class="slide" data-slide="10" aria-label="RelayとGoの並行処理">
-        <div class="section-head"><div class="eyebrow">Goの並行処理</div><h2>Relayはgoroutineとchannelでイベントをさばく</h2><p>並行処理はRelayの実装の中心にある。</p></div>
-        <div class="relay-concurrency">
-          <article class="consumer-card"><span class="consumer-tool">worker pool</span><h3>イベント処理を分担</h3><p>共有channelからタスクを受け取り、複数のworker goroutineが処理する。</p></article>
-          <article class="consumer-card"><span class="consumer-tool">subscriber fan-out</span><h3>購読者へ並行配信</h3><p>バッファが満杯の購読者には待たずに送信を打ち切り、遅い購読者を切り離す。</p></article>
-          <article class="consumer-card"><span class="consumer-tool">CSP</span><h3>安全な非同期処理インターフェース</h3><p>CSPという並行処理理論に基づき、goroutineとchannelで処理間の通信を組み立てる。</p></article>
+        <div class="section-head"><div class="eyebrow">Relay Firehose</div><h2>Relayはgoroutineとchannelでイベントをさばく</h2><p>分散したPDSからイベントを集約し、Firehoseとして購読者へ配信する。</p></div>
+        <div class="relay-flow">
+          <div class="pds-cloud"><div class="pds-mini"><i>P</i>PDS A</div><div class="pds-mini"><i>P</i>PDS B</div><div class="pds-mini"><i>P</i>PDS C</div></div>
+          <div class="two-way" aria-hidden="true">⟶</div>
+          <div class="rf-relay">
+            <div class="rf-title"><b>Relay</b><code>indigo/cmd/relay</code></div>
+            <div class="rf-steps">
+              <div class="rf-step"><span>① 受信</span><code>PDSごとのgoroutine</code><p>各PDSのWebSocketを読み続ける</p></div>
+              <div class="rf-step"><span>② 処理</span><code>channel + worker pool</code><p>CBORをデコードし、署名を検証。workerが分担</p></div>
+              <div class="rf-step"><span>③ 配信</span><code>購読者ごとのchannel</code><p>同じバイト列を並行送信。遅い購読者は切り離す</p></div>
+            </div>
+          </div>
+          <div class="two-way" aria-hidden="true">⟶</div>
+          <div class="apps"><div class="app-node">AppView<small>タイムラインの構築</small></div><div class="app-node">hepa · sonar<small>自動モデレーション・監視</small></div><div class="app-node">rainbow · Tap<small>分配・同期</small></div></div>
         </div>
         <div class="callout"><b>Goの強み:</b> 低レイヤーのスレッドや非同期I/Oを直接扱わずに、CSPに基づく安全なプロセス間通信をgoroutineとchannelで記述できる。Goランタイム内部ではパフォーマンスも最適化されている。</div>
         <p class="pr-note">この両立は、メジャーなプログラミング言語でもあまりない気がする。</p>
       </section>
 
-      <section class="slide" data-slide="11" aria-label="range over func">
+      <section class="slide" data-slide="10" aria-label="range over func">
         <div class="section-head"><div class="eyebrow">Goのイテレータ</div><h2>range over funcはWebSocket接続管理に向いている</h2><p>接続とイベント受信をイテレータにまとめ、呼び出し側はイベント処理に集中する。</p></div>
         <div class="go-layout">
-          <article class="go-card"><div class="mini-eyebrow">イテレータ側</div><h3>WebSocketの接続を管理</h3><p>接続、イベントの受信、終了処理をまとめる。</p></article>
-          <article class="go-card"><div class="mini-eyebrow">ハンドラ側</div><h3>for rangeでイベントを処理</h3><div class="codebox"><span class="kw">for</span> msg, err := <span class="kw">range</span> client.Seq(ctx) {<br>&nbsp;&nbsp;handle(msg)<br>}</div></article>
+          <article class="go-card"><div class="mini-eyebrow">イテレータ側</div><h3>WebSocketの接続を管理</h3><p>接続、イベントの受信、終了処理をまとめる。</p><pre class="codebox"><span class="kw">func</span> (c *Client) Seq(ctx) iter.Seq2[Msg, <span class="kw">error</span>] {
+  <span class="kw">return func</span>(yield <span class="kw">func</span>(Msg, <span class="kw">error</span>) <span class="kw">bool</span>) {
+    conn := dial(ctx)   <span class="cm">// 接続</span>
+    <span class="kw">defer</span> conn.Close()  <span class="cm">// 後始末</span>
+    <span class="kw">for</span> {
+      <span class="kw">if</span> !yield(conn.Read()) { <span class="kw">return</span> }  <span class="cm">// 受信</span>
+    }
+  }
+}</pre></article>
+          <article class="go-card"><div class="mini-eyebrow">ハンドラ側</div><h3>for rangeでイベントを処理</h3><p>接続のことは気にせず、届いたイベントを処理するだけ。</p><pre class="codebox"><span class="kw">for</span> msg, err := <span class="kw">range</span> client.Seq(ctx) {
+  handle(msg)
+}</pre></article>
         </div>
         <div class="callout">ループが<code>break</code>した時に、イテレータ側の<code>defer</code>で確実に後始末できるのもGoの特徴。</div>
       </section>
 
-      <section class="slide close" data-slide="12" aria-label="まとめ">
+      <section class="slide close" data-slide="11" aria-label="まとめ">
         <div class="eyebrow">結論</div>
         <h2>Bluesky(AT Protocol)はデータ主権を分散化させるサービス、<br>ただし計算リソースは集約されていて、<span class="blue">Goが支えている</span></h2>
         <img class="close-image" src="./cover.jpg" alt="GoのマスコットとBlueskyの蝶のイラスト">
