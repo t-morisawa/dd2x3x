@@ -94,17 +94,13 @@
     .slide-image { display: block; width: min(calc(82 * var(--vw)), 540px); max-height: min(calc(50 * var(--vh)), 400px); height: auto; object-fit: contain; }
     .section-head { margin-bottom: 25px; }
     .section-head p { margin-bottom: 0; color: var(--slate); font-size: 14px; line-height: 1.55; }
-    .coin-grid { display: grid; grid-template-columns: 1fr 76px 1fr; align-items: stretch; gap: 16px; }
-    .coin-card { min-height: 210px; padding: clamp(20px, calc(3 * var(--vw)), 30px); display: flex; flex-direction: column; justify-content: space-between; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
-    .coin-symbol { display: flex; align-items: center; gap: 9px; color: var(--slate); font-size: 11px; font-weight: 700; }
-    .coin-symbol .mode { padding: 5px 9px; border-radius: var(--pill); color: var(--blue); background: var(--blue-soft); font-size: 9px; letter-spacing: .04em; }
-    .coin-card strong { display: block; margin: 9px 0 4px; font-size: clamp(18px, calc(2 * var(--vw)), 22px); letter-spacing: -.03em; }
-    .coin-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.5; }
-    .coin-center { display: grid; place-items: center; align-self: center; width: 54px; height: 54px; border: 1px solid var(--line); border-radius: 50%; color: var(--steel); background: white; font-size: 11px; font-weight: 700; box-shadow: 0 6px 18px rgba(35,66,105,.08); }
-    .mini-network { height: 36px; display: flex; align-items: center; gap: 6px; margin-top: 13px; color: var(--blue); }
-    .mini-network span { display: grid; place-items: center; min-width: 39px; height: 24px; padding: 0 7px; border: 1px solid #cfe4fb; border-radius: var(--pill); color: var(--slate); background: #fff; font-size: 8px; font-weight: 600; }
-    .mini-network i { flex: 1; height: 1px; min-width: 8px; background: #a8d2ff; position: relative; }
-    .mini-network i::after { position: absolute; top: -3px; right: 0; content: ""; border: 3px solid transparent; border-left-color: var(--blue); }
+    .abuse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .abuse-card { min-height: 230px; padding: 24px 22px; display: flex; flex-direction: column; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .abuse-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .abuse-no { padding: 5px 10px; border-radius: var(--pill); color: var(--red); background: var(--red-soft); font-size: 10px; font-weight: 700; letter-spacing: .06em; }
+    .abuse-icon { font-size: 30px; line-height: 1; }
+    .abuse-card h3 { margin: 0 0 10px; font-size: clamp(17px, calc(1.8 * var(--vw)), 21px); line-height: 1.35; letter-spacing: -.02em; }
+    .abuse-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
     .callout { margin-top: 17px; padding: 13px 17px; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; color: var(--slate); background: #f0f6ff; font-size: 13px; line-height: 1.55; }
     .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .consumer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -133,27 +129,15 @@
     .intro-card .role { margin-bottom: 13px; color: var(--steel); font-size: 13px; }
     .intro-card p:last-child { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
     .edit-note { margin: 15px 0 0; text-align: center; color: var(--steel); font-size: 10px; }
-    .architecture { display: grid; grid-template-columns: 1fr 130px 1fr; align-items: center; gap: 12px; margin-top: 8px; }
-    .node-stack { display: grid; gap: 11px; }
-    .node { padding: 15px 17px; background: white; border: 1px solid var(--line); border-radius: 15px; }
-    .node h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 3px; font-size: 14px; }
-    .node p { margin: 0; color: var(--steel); font-size: 11px; line-height: 1.45; }
-    .node-icon { display: inline-grid; place-items: center; width: 25px; height: 25px; border-radius: 8px; color: var(--blue); background: var(--blue-soft); font-size: 12px; font-weight: 700; }
-    .flow { display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--blue); font-size: 10px; font-weight: 700; text-align: center; }
-    .flow-line { width: 100%; height: 2px; position: relative; background: #a8d2ff; }
-    .flow-line::after { position: absolute; top: -4px; right: -1px; content: ""; border: 5px solid transparent; border-left-color: var(--blue); }
-    .flow-line.reverse { transform: rotate(180deg); }
-    .flow-mobile-arrow { display: none; }
-    .pds { padding: 22px 14px; border: 1.5px solid #98c8ff; border-radius: 19px; text-align: center; background: linear-gradient(160deg, white, var(--blue-soft)); }
-    .pds .node-icon { width: 37px; height: 37px; margin: 0 auto 9px; border-radius: 12px; font-size: 16px; }
-    .pds h3 { justify-content: center; font-size: 19px; }
-    .pds p { font-size: 11px; }
-    .pds-options { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 12px; }
-    .pds-option { min-width: 72px; padding: 8px 10px; border: 1px solid #cfe4fb; border-radius: 11px; color: var(--slate); background: white; font-size: 10px; font-weight: 700; }
-    .pds-move { color: var(--blue); font-size: 15px; font-weight: 700; }
-    .pds-options-label { margin-top: 5px; color: var(--steel); font-size: 9px; }
-    .micro-label { display: inline-block; margin-top: 10px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--pill); color: var(--slate); background: white; font-size: 9px; }
-    .bottom-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 17px; }
+    .migrate-scene { position: relative; padding: 14px 16px 6px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .migrate-phase { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); padding: 6px 14px; border-radius: var(--pill); color: var(--blue); background: var(--blue-soft); font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .migrate-svg { display: block; width: 100%; height: auto; max-height: max(160px, calc(100 * var(--vh) - 480px)); overflow: visible; }
+    .migrate-svg text { font-family: Inter, system-ui, sans-serif; }
+    .migrate-svg .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .mg-line { fill: none; stroke: #a8d2ff; stroke-width: 2; }
+    .mg-pds { fill: url(#mg-pds-bg); stroke: #98c8ff; stroke-width: 1.5; transition: stroke .2s, stroke-width .2s; }
+    .mg-pds.hit { stroke: var(--blue); stroke-width: 2.5; }
+    .bottom-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
     .fact { padding: 12px 14px; border: 1px solid var(--line-soft); border-radius: 13px; background: rgba(255,255,255,.75); }
     .fact b { display: block; margin-bottom: 4px; font-size: 11px; }
     .fact span { display: block; color: var(--steel); font-size: 10px; line-height: 1.45; }
@@ -231,13 +215,9 @@
     @media (max-width: 720px) {
       .topbar, .bottombar { height: 58px; padding: 0 16px; }
       .slide { padding: 30px 22px; }
-      .coin-grid { grid-template-columns: 1fr 44px 1fr; gap: 8px; }
-      .coin-center { width: 38px; height: 38px; font-size: 9px; }
-      .coin-card { min-height: 190px; padding: 15px; }
-      .coin-card strong { font-size: 18px; }
-      .coin-card p { font-size: 11px; }
-      .architecture { grid-template-columns: 1fr 78px 1fr; gap: 7px; }
       .bottom-facts { gap: 6px; }
+      .migrate-scene { padding: 10px 8px 4px; }
+      .migrate-phase { position: static; transform: none; width: fit-content; max-width: 100%; margin: 0 auto 4px; font-size: 10px; white-space: normal; text-align: center; }
       .fact { padding: 9px; }
       .relay-diagram { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
       .consumer-grid { grid-template-columns: 1fr 1fr; }
@@ -259,12 +239,13 @@
       .slide { padding: 24px 17px; }
       .section-head { margin-bottom: 18px; }
       .section-head p { font-size: 12px; }
-      .coin-grid { grid-template-columns: 1fr; }
-      .coin-center { width: 36px; height: 36px; margin: -2px auto; }
-      .coin-card { min-height: auto; }
-      .coin-card strong { margin: 10px 0 3px; }
-      .coin-card p { font-size: 10px; }
-      .reason-grid, .consumer-grid, .go-layout, .principles, .relay-concurrency { grid-template-columns: 1fr; gap: 9px; }
+      .reason-grid, .consumer-grid, .go-layout, .principles, .relay-concurrency, .abuse-grid { grid-template-columns: 1fr; gap: 9px; }
+      .abuse-card { min-height: 0; padding: 15px; }
+      .abuse-head { margin-bottom: 6px; }
+      .abuse-icon { font-size: 20px; }
+      .abuse-card h3 { margin-bottom: 4px; font-size: 15px; }
+      .abuse-card h3 br { display: none; }
+      .abuse-card p { font-size: 11px; }
       .reason-card { min-height: 0; padding: 15px; }
       .reason-card .number { margin-bottom: 7px; }
       .reason-card p { font-size: 11px; }
@@ -272,12 +253,6 @@
       .avatar { width: 68px; height: 68px; font-size: 23px; }
       .intro-card h3 { font-size: 20px; }
       .intro-card .role, .intro-card p:last-child { font-size: 11px; }
-      .architecture { grid-template-columns: 1fr 1fr; }
-      .pds { grid-column: span 2; grid-row: 1; padding: 12px; }
-      .architecture > .flow { grid-column: span 2; grid-row: 2; flex-direction: row; justify-content: center; gap: 7px; }
-      .flow-line.reverse { display: none; }
-      .flow-mobile-arrow { display: inline; }
-      .node-stack { grid-column: span 2; grid-row: 3; }
       .bottom-facts { grid-template-columns: 1fr; }
       .fact { padding: 8px 10px; }
       .relay-diagram { grid-template-columns: 1fr; }
@@ -329,12 +304,11 @@
 
       <section class="slide" data-slide="1" aria-label="何を分散化したか">
         <div class="section-head"><div class="eyebrow">既存SNSの課題</div><h2>ユーザーの投稿データと利益の独占</h2><p>UGC（ユーザーが作る投稿）を集め、そのデータから得られる利益を運営企業が独占できる構造だった。</p></div>
-        <div class="coin-grid">
-          <article class="coin-card"><div class="coin-symbol"><span class="mode">UGC</span> ユーザー</div><div><strong>投稿を生み出す</strong><p>SNSのコンテンツをつくるのはユーザー。</p><div class="mini-network" aria-label="ユーザーが投稿を作成"><span>ユーザー</span><i></i><span>投稿</span></div></div></article>
-          <div class="coin-center" aria-label="価値の流れ">→</div>
-          <article class="coin-card"><div class="coin-symbol"><span class="mode">独占</span> プラットフォーム</div><div><strong>データと利益</strong><p>投稿データを集め、そこから得る利益を運営企業が握る。</p><div class="mini-network" aria-label="投稿データと利益が運営企業に集まる"><span>UGC</span><i></i><span>利益</span></div></div></article>
+        <div class="abuse-grid">
+          <article class="abuse-card"><div class="abuse-head"><span class="abuse-no">01</span><span class="abuse-icon" aria-hidden="true">💰</span></div><h3>ユーザーデータを<br>パートナー企業に売却</h3><p>ユーザーが生み出した投稿や行動データを、企業の収益源として外部に売る。</p></article>
+          <article class="abuse-card"><div class="abuse-head"><span class="abuse-no">02</span><span class="abuse-icon" aria-hidden="true">📢</span></div><h3>モデレーション・広告・<br>レコメンドの押し付け</h3><p>何を消し、何を見せるかを運営が一方的に決める。ユーザーは選べない。</p></article>
+          <article class="abuse-card"><div class="abuse-head"><span class="abuse-no">03</span><span class="abuse-icon" aria-hidden="true">🔒</span></div><h3>APIやRSSフィードの<br>提供を縮小</h3><p>外部からデータにアクセスする手段を絞り、データを囲い込む。</p></article>
         </div>
-        <div class="callout"><b>モデレーション、広告、レコメンドも運営側が決め、ユーザーに押し付けられる。APIやRSSフィードの提供も縮小されてきた。</b></div>
       </section>
 
       <section class="slide" data-slide="2" aria-label="なぜこの設計か">
@@ -357,14 +331,12 @@
 
       <section class="slide" data-slide="4" aria-label="データ主権とPDS">
         <div class="section-head"><div class="eyebrow">🪙 コインの表 🌕</div><h2>データポータビリティの保証</h2><p>一つのDIDを保ったまま、データを別のPDSへ移行できる。</p></div>
-        <div class="architecture">
-          <div class="pds"><span class="node-icon">▤</span><h3>PDS</h3><p>Personal Data Server<br>投稿・プロフィールの保管場所</p><div class="pds-options"><span class="pds-option">PDS A</span><span class="pds-move">→</span><span class="pds-option">PDS B</span></div><div class="pds-options-label">移行先の例</div></div>
-          <div class="flow"><span>署名</span><div class="flow-line reverse"></div><span class="flow-mobile-arrow" aria-hidden="true">↑</span></div>
-          <div class="node-stack">
-            <div class="node"><h3><span class="node-icon">ID</span> DIDと署名</h3><p>DIDはAT Protocolでグローバルにユニークなユーザー識別子。公開鍵をDIDから参照し、投稿の署名を検証する。</p></div>
-          </div>
+        <div class="migrate-scene" id="migrate-scene">
+          <div class="migrate-phase" id="migrate-phase"></div>
+          <svg class="migrate-svg" viewBox="0 0 1100 290" role="img" aria-label="複数のユーザーがそれぞれのPDSに投稿し、AliceがDIDを保ったままPDS AからPDS Cへデータを引越しするアニメーション"></svg>
         </div>
         <div class="bottom-facts">
+          <div class="fact"><b>DIDと署名</b><span>DIDはグローバルにユニークな識別子。公開鍵をDIDから参照し署名を検証する</span></div>
           <div class="fact"><b>物理的に分散</b><span>別々の事業者・サーバーで運用できる</span></div>
           <div class="fact"><b>ポータビリティ</b><span>何かあっても別のPDSに移行可能</span></div>
         </div>
@@ -532,6 +504,153 @@
         touchStart = null;
       }, { passive: true });
       show(0);
+    })();
+
+    // データポータビリティのループアニメーション
+    (() => {
+      const slide = document.querySelector('[data-slide="4"]');
+      const svg = slide.querySelector('.migrate-svg');
+      const phaseEl = document.getElementById('migrate-phase');
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs, parent) => {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        parent.appendChild(e);
+        return e;
+      };
+
+      const LOOP = 15, FLY = 1;
+      const MIGRATE = 7.6, MOVE_START = 8.1, MOVE_GAP = .3, MOVE_DUR = .9, SETTLED = 10.2;
+      const ROWS = [72, 158, 244];
+      const PDS_X = 780, PDS_W = 210, PDS_H = 72, SLOT = 16, PER_ROW = 11;
+      const users = [
+        { name: 'Alice', did: 'did:plc:alice…', color: '#006aff', posts: [0.4, 2.2, 4.0, 5.8, 10.8, 12.4] },
+        { name: 'Bob', did: 'did:plc:bob…', color: '#14804a', posts: [1.0, 2.8, 4.6, 6.4, 8.6, 11.2, 12.8] },
+        { name: 'Carol', did: 'did:plc:carol…', color: '#e0782a', posts: [1.6, 3.4, 5.2, 7.0, 9.2, 11.8] },
+      ];
+      const pdses = [{ name: 'PDS A', sub: '事業者X' }, { name: 'PDS B', sub: '事業者Y' }, { name: 'PDS C', sub: 'セルフホスト' }];
+      // Alice: A → C、Bob: A、Carol: B
+      const homeOfPost = (u, t) => (u === 0 ? (t < MIGRATE ? 0 : 2) : u === 1 ? 0 : 1);
+
+      const clamp = (v) => Math.max(0, Math.min(1, v));
+      const ease = (p) => (p < .5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2);
+      const anchor = (u) => ({ x: 205, y: ROWS[u] - 6 });
+
+      const defs = el('defs', {}, svg);
+      const grad = el('linearGradient', { id: 'mg-pds-bg', x1: 0, y1: 0, x2: 1, y2: 1 }, defs);
+      el('stop', { offset: 0, 'stop-color': '#fff' }, grad);
+      el('stop', { offset: 1, 'stop-color': '#eef6ff' }, grad);
+      const root = el('g', {}, svg);
+
+      const lineTo = (u, p) => el('line', { class: 'mg-line', x1: 210, y1: ROWS[u], x2: PDS_X, y2: ROWS[p] }, root);
+      const lines = { a0: lineTo(0, 0), a2: lineTo(0, 2), b: lineTo(1, 0), c: lineTo(2, 1) };
+      lines.a2.setAttribute('stroke-dasharray', '6 5');
+
+      users.forEach((u, i) => {
+        const y = ROWS[i];
+        el('circle', { cx: 46, cy: y, r: 22, fill: u.color }, root);
+        el('text', { x: 46, y: y + 6, 'text-anchor': 'middle', fill: '#fff', 'font-size': 17, 'font-weight': 700 }, root).textContent = u.name[0];
+        el('text', { x: 80, y: y - 3, fill: '#000', 'font-size': 16, 'font-weight': 700 }, root).textContent = u.name;
+        el('text', { x: 80, y: y + 15, class: 'mono', fill: '#667b99', 'font-size': 11 }, root).textContent = u.did;
+      });
+      const didBadge = el('g', { opacity: 0 }, root);
+      el('rect', { x: 74, y: ROWS[0] + 22, width: 112, height: 22, rx: 11, fill: '#edf8f1', stroke: '#14804a' }, didBadge);
+      el('text', { x: 130, y: ROWS[0] + 37, 'text-anchor': 'middle', fill: '#14804a', 'font-size': 11, 'font-weight': 700 }, didBadge).textContent = '✓ DIDはそのまま';
+
+      const pdsRects = pdses.map((p, i) => {
+        const y = ROWS[i] - PDS_H / 2;
+        const r = el('rect', { class: 'mg-pds', x: PDS_X, y, width: PDS_W, height: PDS_H, rx: 14 }, root);
+        el('text', { x: PDS_X + 14, y: y + 22, fill: '#000', 'font-size': 14, 'font-weight': 700 }, root).textContent = p.name;
+        el('text', { x: PDS_X + 66, y: y + 22, fill: '#667b99', 'font-size': 11 }, root).textContent = p.sub;
+        return r;
+      });
+      const tag = (i, text, color) => {
+        const g = el('g', { opacity: 0 }, root);
+        el('text', { x: PDS_X + PDS_W - 14, y: ROWS[i] - PDS_H / 2 + 22, 'text-anchor': 'end', fill: color, 'font-size': 11, 'font-weight': 700 }, g).textContent = text;
+        return g;
+      };
+      const fromTag = tag(0, '移行元', '#c24141');
+      const toTag = tag(2, '移行先', '#006aff');
+
+      const records = [];
+      users.forEach((u, ui) => {
+        let moved = 0;
+        u.posts.forEach((t0) => {
+          const home0 = homeOfPost(ui, t0);
+          const moveAt = ui === 0 && home0 === 0 ? MOVE_START + MOVE_GAP * moved++ : null;
+          const node = el('rect', { width: 12, height: 12, rx: 3, fill: u.color, opacity: 0 }, root);
+          records.push({ u: ui, t0, home0, moveAt, node, disp: null });
+        });
+      });
+      const homeAt = (r, t) => (r.moveAt !== null && t >= r.moveAt ? 2 : r.home0);
+      const slotPos = (r, t) => {
+        const home = homeAt(r, t);
+        const i = records.filter((o) => t >= o.t0 && o.t0 < r.t0 && homeAt(o, t) === home).length;
+        return { x: PDS_X + 14 + (i % PER_ROW) * SLOT, y: ROWS[home] - 2 + Math.floor(i / PER_ROW) * SLOT };
+      };
+      const bezier = (a, b, p) => {
+        const cx = PDS_X + PDS_W + 110, c1 = { x: cx, y: a.y }, c2 = { x: cx, y: b.y }, q = 1 - p;
+        const f = (k) => q ** 3 * a[k] + 3 * q * q * p * c1[k] + 3 * q * p * p * c2[k] + p ** 3 * b[k];
+        return { x: f('x'), y: f('y') };
+      };
+
+      const phases = [
+        [0, '① それぞれのユーザーが自分のPDSに投稿'],
+        [MIGRATE, '② Aliceが同じDIDのまま、データをPDS Cへ引越し'],
+        [SETTLED, '③ 引越し先のPDS Cで投稿を続ける'],
+      ];
+
+      function render(t, dt) {
+        root.setAttribute('opacity', t < .3 ? t / .3 : t > 14.3 ? clamp((LOOP - t) / .6) : 1);
+        lines.a0.setAttribute('opacity', 1 - clamp((t - MIGRATE) / .6) * .85 - clamp((t - SETTLED + .6) / .6) * .15);
+        lines.a2.setAttribute('opacity', clamp((t - SETTLED + .6) / .5));
+        lines.a2.setAttribute('stroke-dasharray', t >= SETTLED ? 'none' : '6 5');
+        const mig = clamp((t - MIGRATE) / .4) * clamp((SETTLED + .4 - t) / .4);
+        fromTag.setAttribute('opacity', mig);
+        toTag.setAttribute('opacity', mig);
+        didBadge.setAttribute('opacity', clamp((t - MIGRATE) / .4) * clamp((13 - t) / .5));
+
+        const label = phases.filter(([s]) => t >= s).pop()[1];
+        if (phaseEl.textContent !== label) phaseEl.textContent = label;
+
+        const hit = [false, false, false];
+        for (const r of records) {
+          if (t < r.t0) { r.node.setAttribute('opacity', 0); r.disp = null; continue; }
+          const target = slotPos(r, t);
+          let pos;
+          if (t < r.t0 + FLY) {
+            const a = anchor(r.u);
+            const p = ease((t - r.t0) / FLY);
+            pos = { x: a.x + (target.x - a.x) * p, y: a.y + (target.y - a.y) * p };
+          } else if (r.moveAt !== null && t >= r.moveAt && t < r.moveAt + MOVE_DUR) {
+            pos = bezier(slotPos(r, r.moveAt - .001), target, ease((t - r.moveAt) / MOVE_DUR));
+          } else {
+            const d = r.disp || target, k = Math.min(1, dt * 10);
+            pos = { x: d.x + (target.x - d.x) * k, y: d.y + (target.y - d.y) * k };
+          }
+          const landed = Math.max(r.t0 + FLY, r.moveAt !== null && t >= r.moveAt ? r.moveAt + MOVE_DUR : 0);
+          if (t >= landed && t - landed < .35) hit[homeAt(r, t)] = true;
+          r.disp = pos;
+          r.node.setAttribute('x', pos.x);
+          r.node.setAttribute('y', pos.y);
+          r.node.setAttribute('opacity', 1);
+        }
+        pdsRects.forEach((rect, i) => rect.classList.toggle('hit', hit[i]));
+      }
+
+      let start = null, last = 0;
+      function frame(now) {
+        if (slide.classList.contains('active')) {
+          if (start === null) { start = now; last = now; }
+          render(((now - start) / 1000) % LOOP, (now - last) / 1000);
+          last = now;
+        } else {
+          start = null;
+        }
+        requestAnimationFrame(frame);
+      }
+      render(0, 0);
+      requestAnimationFrame(frame);
     })();
   </script>
 </body>
