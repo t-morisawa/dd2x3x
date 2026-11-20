@@ -114,6 +114,24 @@
     .abuse-card h3 { margin: 0 0 10px; font-size: clamp(17px, calc(1.8 * var(--vw)), 21px); line-height: 1.35; letter-spacing: -.02em; }
     .abuse-card p { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
     .callout { margin-top: 17px; padding: 13px 17px; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; color: var(--slate); background: #f0f6ff; font-size: 13px; line-height: 1.55; }
+    .compare { display: grid; grid-template-columns: 1fr 32px 1fr; align-items: center; gap: 10px; }
+    .compare-box { padding: 18px 22px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .compare-box.new { border-color: #98c8ff; background: linear-gradient(160deg, white, var(--blue-soft)); }
+    .compare-box small { display: block; margin-bottom: 6px; color: var(--steel); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+    .compare-box b { display: block; margin-bottom: 6px; font-size: clamp(18px, calc(2 * var(--vw)), 22px); letter-spacing: -.02em; }
+    .compare-box.new b { color: var(--blue); }
+    .compare-box span { color: var(--slate); font-size: 12px; line-height: 1.55; }
+    .compare-arrow { color: var(--blue); text-align: center; font-size: 22px; }
+    .stack-title { margin: 22px 0 8px; color: var(--steel); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+    .stack { display: grid; gap: 8px; }
+    .stack-apps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stack-app, .stack-base { display: flex; align-items: baseline; gap: 12px; padding: 11px 18px; border-radius: 13px; }
+    .stack-app { background: white; border: 1px solid var(--line); }
+    .stack-app.other { border-style: dashed; background: transparent; }
+    .stack-base { justify-content: center; background: var(--blue-soft); border: 1px solid #98c8ff; }
+    .stack b { font-size: 14px; }
+    .stack-base b { color: var(--blue); }
+    .stack span { color: var(--slate); font-size: 11px; }
     .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .relay-flow { display: grid; grid-template-columns: 130px 24px 1fr 24px 170px; align-items: center; gap: 10px; margin: 4px 0 2px; }
     .rf-relay { padding: 16px; color: white; background: var(--blue); border-radius: 20px; box-shadow: 0 10px 23px rgba(0,106,255,.18); }
@@ -138,26 +156,21 @@
     .intro-card .role { margin-bottom: 13px; color: var(--steel); font-size: 13px; }
     .intro-card p:last-child { margin: 0; color: var(--slate); font-size: 13px; line-height: 1.6; }
     .edit-note { margin: 15px 0 0; text-align: center; color: var(--steel); font-size: 10px; }
-    .migrate-scene { position: relative; padding: 14px 16px 6px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
-    .migrate-phase { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); padding: 6px 14px; border-radius: var(--pill); color: var(--blue); background: var(--blue-soft); font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .migrate-svg { display: block; width: 100%; height: auto; max-height: max(160px, calc(100 * var(--vh) - 480px)); overflow: visible; }
-    .migrate-svg text { font-family: Inter, system-ui, sans-serif; }
-    .migrate-svg .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .mg-line { fill: none; stroke: #a8d2ff; stroke-width: 2; }
-    .mg-pds { fill: url(#mg-pds-bg); stroke: #98c8ff; stroke-width: 1.5; transition: stroke .2s, stroke-width .2s; }
-    .mg-pds.hit { stroke: var(--blue); stroke-width: 2.5; }
+    .anim-scene { position: relative; padding: 14px 16px 6px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .anim-phase { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); padding: 6px 14px; border-radius: var(--pill); color: var(--blue); background: var(--blue-soft); font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .anim-svg { display: block; width: 100%; height: auto; max-height: max(160px, calc(100 * var(--vh) - 480px)); overflow: visible; }
+    .anim-svg text { font-family: Inter, system-ui, sans-serif; }
+    .anim-svg .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .anim-line { fill: none; stroke: #a8d2ff; stroke-width: 2; }
+    .anim-box { stroke: #98c8ff; stroke-width: 1.5; transition: stroke .2s, stroke-width .2s; }
+    .anim-box.hit { stroke: var(--blue); stroke-width: 2.5; }
     .bottom-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
     .fact { padding: 12px 14px; border: 1px solid var(--line-soft); border-radius: 13px; background: rgba(255,255,255,.75); }
     .fact b { display: block; margin-bottom: 4px; font-size: 11px; }
     .fact span { display: block; color: var(--steel); font-size: 10px; line-height: 1.45; }
-    .relay-diagram { display: grid; grid-template-columns: 1fr 24px 1.05fr 24px 1fr; align-items: center; gap: 12px; margin-top: 5px; }
     .pds-cloud { display: grid; gap: 8px; }
     .pds-mini { padding: 10px 12px; display: flex; align-items: center; gap: 9px; background: white; border: 1px solid var(--line); border-radius: 12px; color: var(--slate); font-size: 11px; }
     .pds-mini i { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; color: var(--blue); background: var(--blue-soft); font-style: normal; font-size: 10px; font-weight: 700; }
-    .relay-node { padding: 24px 18px; text-align: center; color: white; background: var(--blue); border-radius: 20px; box-shadow: 0 10px 23px rgba(0,106,255,.18); }
-    .relay-node .relay-icon { font-size: 24px; }
-    .relay-node h3 { margin: 5px 0; font-size: 22px; }
-    .relay-node p { margin: 0; color: rgba(255,255,255,.83); font-size: 10px; line-height: 1.5; }
     .two-way { display: flex; align-items: center; gap: 5px; color: var(--blue); font-size: 18px; }
     .apps { display: grid; gap: 9px; }
     .app-node { padding: 11px 12px; background: white; border: 1px solid var(--line); border-radius: 12px; font-size: 11px; font-weight: 600; }
@@ -214,7 +227,7 @@
     .benefit span { display: block; color: var(--steel); font-size: 9px; line-height: 1.45; }
     .pr-note { margin: 13px 0 0; text-align: center; color: var(--steel); font-size: 10px; }
     .close h2 { max-width: 1000px; font-size: clamp(24px, calc(3.2 * var(--vw)), 36px); line-height: 1.25; }
-    .close-image { display: block; max-width: min(calc(60 * var(--vw)), 360px); max-height: min(calc(34 * var(--vh)), 240px); width: auto; height: auto; object-fit: contain; margin-top: 20px; }
+    .close .anim-scene { width: 100%; margin-top: 20px; }
     .dots { display: flex; align-items: center; gap: 6px; }
     .dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: var(--pill); background: #cdd5df; cursor: pointer; transition: width .2s, background .2s; }
     .dot.active { width: 24px; background: var(--blue); }
@@ -233,12 +246,9 @@
       .relay-flow > .two-way { transform: rotate(90deg); justify-content: center; height: 16px; }
       .relay-flow .pds-cloud, .relay-flow .apps { grid-template-columns: repeat(3, 1fr); }
       .lang-notes { grid-template-columns: 1fr; gap: 6px; }
-      .migrate-scene { padding: 10px 8px 4px; }
-      .migrate-phase { position: static; transform: none; width: fit-content; max-width: 100%; margin: 0 auto 4px; font-size: 10px; white-space: normal; text-align: center; }
+      .anim-scene { padding: 10px 8px 4px; }
+      .anim-phase { position: static; transform: none; width: fit-content; max-width: 100%; margin: 0 auto 4px; font-size: 10px; white-space: normal; text-align: center; }
       .fact { padding: 9px; }
-      .relay-diagram { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
-      .relay-node { padding: 17px 9px; }
-      .relay-node h3 { font-size: 17px; }
       .pds-mini, .app-node { padding: 9px 8px; font-size: 9px; }
       .faq-row { grid-template-columns: .9fr 1.4fr; gap: 10px; padding: 11px; }
       .range-flow { grid-template-columns: 1fr 20px 1fr 20px 1fr; gap: 4px; }
@@ -253,6 +263,13 @@
       .section-head h2 { font-size: 23px; }
       .section-head p { font-size: 11px; }
       .callout { margin-top: 12px; padding: 10px 12px; font-size: 11px; }
+      .compare { grid-template-columns: 1fr; gap: 4px; }
+      .compare-box { padding: 12px 14px; }
+      .compare-box b { margin-bottom: 0; }
+      .compare-box span { display: none; }
+      .compare-arrow { justify-self: center; transform: rotate(90deg); }
+      .stack-title { margin: 14px 0 6px; }
+      .stack-app, .stack-base { flex-direction: column; gap: 2px; padding: 9px 12px; }
       .reason-grid, .go-layout, .principles, .abuse-grid { grid-template-columns: 1fr; gap: 9px; }
       .rf-steps { gap: 5px; }
       .rf-step { padding: 7px; }
@@ -277,11 +294,7 @@
       .intro-card .role, .intro-card p:last-child { font-size: 11px; }
       .bottom-facts { grid-template-columns: 1fr; }
       .fact { padding: 8px 10px; }
-      .relay-diagram { grid-template-columns: 1fr; }
-      .pds-cloud { grid-template-columns: repeat(3, 1fr); }
       .pds-mini { justify-content: center; font-size: 8px; }
-      .relay-diagram > .two-way { transform: rotate(90deg); justify-content: center; height: 18px; }
-      .apps { grid-template-columns: 1fr 1fr; }
       .relay-bottom, .split-line { grid-template-columns: 1fr; gap: 7px; }
       .faq-row { grid-template-columns: 1fr; gap: 4px; }
       .faq-row p { font-size: 10px; }
@@ -326,7 +339,7 @@
       </section>
 
       <section class="slide" data-slide="1" aria-label="The problem with existing social media">
-        <div class="section-head"><div class="eyebrow">The problem with existing social media</div><h2>Platforms monopolize user posts and profits</h2><p>Platforms collect UGC (user-generated content) and keep all the profit made from that data.</p></div>
+        <div class="section-head"><div class="eyebrow">The problem with existing social media (X, Instagram, …)</div><h2>Platforms monopolize user posts and profits</h2><p>Platforms collect UGC (user-generated content) and keep all the profit made from that data.</p></div>
         <div class="abuse-grid">
           <article class="abuse-card"><div class="abuse-head"><span class="abuse-no">01</span><span class="abuse-icon" aria-hidden="true">💰</span></div><h3>Selling user data<br>to partner companies</h3><p>Posts and behavioral data created by users are sold to outside companies as a revenue source.</p></article>
           <article class="abuse-card"><div class="abuse-head"><span class="abuse-no">02</span><span class="abuse-icon" aria-hidden="true">📢</span></div><h3>Imposed moderation,<br>ads, and recommendations</h3><p>The platform alone decides what to remove and what to show. Users have no choice.</p></article>
@@ -334,7 +347,24 @@
         </div>
       </section>
 
-      <section class="slide" data-slide="2" aria-label="Why this design">
+      <section class="slide" data-slide="2" aria-label="AT Protocol decentralized data ownership">
+        <div class="section-head"><div class="eyebrow">AT Protocol and Bluesky</div><h2>AT Protocol decentralized data ownership</h2><p>Data ownership = the right to decide who holds your data and how it is used.</p></div>
+        <div class="compare">
+          <div class="compare-box"><small>Existing social media</small><b>The company holds your data</b><span>Posts pile up on the company&#39;s servers, and the company decides how they are used</span></div>
+          <div class="compare-arrow" aria-hidden="true">→</div>
+          <div class="compare-box new"><small>AT Protocol</small><b>You hold your data</b><span>It lives on a server you choose (a PDS), and you can move it to another server</span></div>
+        </div>
+        <p class="stack-title">Glossary</p>
+        <div class="stack">
+          <div class="stack-apps">
+            <div class="stack-app"><b>🦋 Bluesky</b><span>A social network on ATP</span></div>
+            <div class="stack-app other"><b>Other apps</b><span>Can also be built on ATP</span></div>
+          </div>
+          <div class="stack-base"><b>AT Protocol (ATP)</b><span>A web service foundation that decentralizes data ownership</span></div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="3" aria-label="Why this design">
         <div class="section-head"><div class="eyebrow">The design of Bluesky (AT Protocol)</div><h2>Decentralize data ownership, centralize compute</h2><p>Users keep control of their data, while the compute that processes the whole network&#39;s data is concentrated in the Relay.</p></div>
         <div class="reason-grid">
           <article class="reason-card"><span class="number">01</span><h3>Decentralized data ownership</h3><p>Choose your PDS, and move your data to another PDS when needed.</p></article>
@@ -343,20 +373,20 @@
         <div class="tradeoff">Data ownership🌕 and centralized compute🌑<br>Two sides of the same coin🪙, and both matter.</div>
       </section>
 
-      <section class="slide" data-slide="3" aria-label="About me">
+      <section class="slide" data-slide="4" aria-label="About me">
         <div class="section-head" style="text-align:center"><div class="eyebrow">Speaker</div><h2>About me</h2></div>
         <div class="intro-card">
           <img class="avatar" src="./avatar.webp" alt="Avatar of taumu.bsky.social">
-          <div><h3>taumu.bsky.social</h3><p>Interested in technologies that could make the internet better, such as AT Protocol and x402.</p></div>
+          <div><h3>taumu.bsky.social</h3><p class="role">Bluesky Hackathon Grand Prize</p><p>Interested in technologies that could make the internet better, such as AT Protocol and x402.</p></div>
         </div>
         <p class="edit-note">This HTML was generated by AI using an unofficial Bluesky design system.</p>
       </section>
 
-      <section class="slide" data-slide="4" aria-label="Data ownership and PDS">
+      <section class="slide" data-slide="5" aria-label="Data ownership and PDS">
         <div class="section-head"><div class="eyebrow">🪙 Heads 🌕</div><h2>Guaranteed data portability</h2><p>Move your data to another PDS while keeping the same DID.</p></div>
-        <div class="migrate-scene" id="migrate-scene">
-          <div class="migrate-phase" id="migrate-phase"></div>
-          <svg class="migrate-svg" viewBox="0 0 1100 290" role="img" aria-label="Animation: several users post to their own PDSes, then Alice moves her data from PDS A to PDS C while keeping her DID"></svg>
+        <div class="anim-scene" id="migrate-scene">
+          <div class="anim-phase" id="migrate-phase"></div>
+          <svg class="anim-svg" viewBox="0 0 1100 290" role="img" aria-label="Animation: several users post to their own PDSes, then Alice moves her data from PDS A to PDS C while keeping her DID"></svg>
         </div>
         <div class="bottom-facts">
           <div class="fact"><b>DID and signatures</b><span>A DID is a globally unique identifier. The public key is resolved from the DID to verify signatures</span></div>
@@ -365,20 +395,17 @@
         </div>
       </section>
 
-      <section class="slide" data-slide="5" aria-label="Data aggregation by the Relay">
+      <section class="slide" data-slide="6" aria-label="Data aggregation by the Relay">
         <div class="section-head"><div class="eyebrow">🪙 Tails 🌑</div><h2>The Relay ties all the data together</h2><p>It receives updates from every PDS and delivers them as a stream that apps can use.</p></div>
-        <div class="relay-diagram">
-          <div class="pds-cloud"><div class="pds-mini"><i>P</i>PDS A</div><div class="pds-mini"><i>P</i>PDS B</div><div class="pds-mini"><i>P</i>PDS C</div></div>
-          <div class="two-way" aria-label="Data flow">⟶</div>
-          <div class="relay-node"><div class="relay-icon">≋</div><h3>Relay</h3><p>Aggregates PDS events<br>Provides a subscribable stream</p></div>
-          <div class="two-way" aria-label="Data flow">⟶</div>
-          <div class="apps"><div class="app-node">Bluesky<small>Official app</small></div><div class="app-node">Other apps<small>Build their own experience</small></div></div>
+        <div class="anim-scene relay-scene">
+          <div class="anim-phase"></div>
+          <svg class="anim-svg" viewBox="0 0 1100 290" role="img" aria-label="Animation: data spread across three PDSes is merged by the Relay into one sequence, then copied in the same order to Bluesky and other apps"></svg>
         </div>
         <p class="diagram-caption">Apps either use the Bluesky API or run their own Relay stream subscription.</p>
         <div class="relay-bottom"><div><b>Subscribe to just one Relay</b> and you can handle posts from many PDSes at once.</div><div><b>Unlike the Fediverse</b> In Mastodon and Misskey, servers federate with each other. In AT Protocol, the Relay aggregates PDS events, and apps consume that stream.</div></div>
       </section>
 
-      <section class="slide" data-slide="6" aria-label="Bluesky FAQ">
+      <section class="slide" data-slide="7" aria-label="Bluesky FAQ">
         <div class="section-head"><div class="eyebrow">FAQ</div><h2>Bluesky FAQ</h2><p>What &quot;decentralized&quot; actually means, part by part.</p></div>
         <div class="faq-list">
           <div class="faq-row"><strong>Are AT Protocol and Bluesky the same?</strong><p><b>No.</b> AT Protocol is the protocol that supports data ownership. Bluesky is a social network built on it, and Bluesky the company also runs infrastructure such as the Relay.</p></div>
@@ -388,12 +415,12 @@
         </div>
       </section>
 
-      <section class="slide image-only" data-slide="7" aria-label="Recap and what comes next">
+      <section class="slide image-only" data-slide="8" aria-label="Recap and what comes next">
         <h2>Recap and what comes next</h2>
-        <img class="slide-image" src="./relay-go-diagram.png" alt="Diagram: many PDSes feed into the Relay, which delivers to services such as Bluesky. The Go logo is shown alongside.">
+        <img class="slide-image" src="./relay-go-diagram.png" alt="AT Protocol diagram: a user posts to a PDS, many PDSes feed into the Relay, which delivers to services such as Bluesky. The Go logo is shown alongside.">
       </section>
 
-      <section class="slide" data-slide="8" aria-label="The Relay runs on Go">
+      <section class="slide" data-slide="9" aria-label="The Relay runs on Go">
         <div class="section-head"><div class="eyebrow">Go behind the Relay</div><h2>User-facing features in TS,<br>heavy infrastructure in Go</h2><p>The work is split across two repositories: atproto (TypeScript) and indigo (Go).</p></div>
         <div class="lang-split">
           <article class="lang-card">
@@ -424,7 +451,7 @@
         </div>
       </section>
 
-      <section class="slide" data-slide="9" aria-label="Relay event processing">
+      <section class="slide" data-slide="10" aria-label="Relay event processing">
         <div class="section-head"><div class="eyebrow">Relay Firehose</div><h2>The Relay handles events with goroutines and channels</h2><p>It aggregates events from distributed PDSes and delivers them to subscribers as the Firehose.</p></div>
         <div class="relay-flow">
           <div class="pds-cloud"><div class="pds-mini"><i>P</i>PDS A</div><div class="pds-mini"><i>P</i>PDS B</div><div class="pds-mini"><i>P</i>PDS C</div></div>
@@ -444,7 +471,7 @@
         <p class="pr-note">I don&#39;t think many major programming languages offer both.</p>
       </section>
 
-      <section class="slide" data-slide="10" aria-label="range over func">
+      <section class="slide" data-slide="11" aria-label="range over func">
         <div class="section-head"><div class="eyebrow">Go iterators</div><h2>range over func fits WebSocket connection management</h2><p>Wrap connecting and receiving events in an iterator so the caller can focus on handling events.</p></div>
         <div class="go-layout">
           <article class="go-card"><div class="mini-eyebrow">Iterator side</div><h3>Manages the WebSocket connection</h3><p>Handles connecting, receiving events, and cleanup.</p><pre class="codebox"><span class="kw">func</span> (c *Client) Seq(ctx) iter.Seq2[Msg, <span class="kw">error</span>] {
@@ -463,10 +490,13 @@
         <div class="callout">Another Go feature: when the loop hits <code>break</code>, the iterator&#39;s <code>defer</code> reliably cleans up.</div>
       </section>
 
-      <section class="slide close" data-slide="11" aria-label="Conclusion">
+      <section class="slide close" data-slide="12" aria-label="Conclusion">
         <div class="eyebrow">Conclusion</div>
         <h2>Bluesky (AT Protocol) decentralizes data ownership,<br>but its compute is centralized, and <span class="blue">Go powers it</span></h2>
-        <img class="close-image" src="./cover.jpg" alt="Illustration of the Go gopher and the Bluesky butterfly">
+        <div class="anim-scene relay-scene">
+          <div class="anim-phase"></div>
+          <svg class="anim-svg" viewBox="0 0 1100 290" role="img" aria-label="Animation: data spread across three PDSes is merged by the Relay into one sequence, then copied in the same order to Bluesky and other apps"></svg>
+        </div>
       </section>
     </main>
 
@@ -555,11 +585,8 @@
       show(0);
     })();
 
-    // Looping data portability animation
-    (() => {
-      const slide = document.querySelector('[data-slide="4"]');
-      const svg = slide.querySelector('.migrate-svg');
-      const phaseEl = document.getElementById('migrate-phase');
+    // Shared helpers for looping animations
+    const loopAnim = (() => {
       const NS = 'http://www.w3.org/2000/svg';
       const el = (tag, attrs, parent) => {
         const e = document.createElementNS(NS, tag);
@@ -567,6 +594,33 @@
         parent.appendChild(e);
         return e;
       };
+      const clamp = (v) => Math.max(0, Math.min(1, v));
+      const ease = (p) => (p < .5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2);
+      // Run render(seconds into loop, seconds since last frame) only while the slide is shown
+      const play = (slide, loop, render) => {
+        let start = null, last = 0;
+        const frame = (now) => {
+          if (slide.classList.contains('active')) {
+            if (start === null) { start = now; last = now; }
+            render(((now - start) / 1000) % loop, (now - last) / 1000);
+            last = now;
+          } else {
+            start = null;
+          }
+          requestAnimationFrame(frame);
+        };
+        render(0, 0);
+        requestAnimationFrame(frame);
+      };
+      return { el, clamp, ease, play };
+    })();
+
+    // Looping data portability animation
+    (() => {
+      const slide = document.querySelector('[data-slide="5"]');
+      const svg = slide.querySelector('.anim-svg');
+      const phaseEl = document.getElementById('migrate-phase');
+      const { el, clamp, ease, play } = loopAnim;
 
       const LOOP = 15, FLY = 1;
       const MIGRATE = 7.6, MOVE_START = 8.1, MOVE_GAP = .3, MOVE_DUR = .9, SETTLED = 10.2;
@@ -581,8 +635,6 @@
       // Alice: A → C, Bob: A, Carol: B
       const homeOfPost = (u, t) => (u === 0 ? (t < MIGRATE ? 0 : 2) : u === 1 ? 0 : 1);
 
-      const clamp = (v) => Math.max(0, Math.min(1, v));
-      const ease = (p) => (p < .5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2);
       const anchor = (u) => ({ x: 205, y: ROWS[u] - 6 });
 
       const defs = el('defs', {}, svg);
@@ -591,7 +643,7 @@
       el('stop', { offset: 1, 'stop-color': '#eef6ff' }, grad);
       const root = el('g', {}, svg);
 
-      const lineTo = (u, p) => el('line', { class: 'mg-line', x1: 210, y1: ROWS[u], x2: PDS_X, y2: ROWS[p] }, root);
+      const lineTo = (u, p) => el('line', { class: 'anim-line', x1: 210, y1: ROWS[u], x2: PDS_X, y2: ROWS[p] }, root);
       const lines = { a0: lineTo(0, 0), a2: lineTo(0, 2), b: lineTo(1, 0), c: lineTo(2, 1) };
       lines.a2.setAttribute('stroke-dasharray', '6 5');
 
@@ -608,7 +660,7 @@
 
       const pdsRects = pdses.map((p, i) => {
         const y = ROWS[i] - PDS_H / 2;
-        const r = el('rect', { class: 'mg-pds', x: PDS_X, y, width: PDS_W, height: PDS_H, rx: 14 }, root);
+        const r = el('rect', { class: 'anim-box', fill: 'url(#mg-pds-bg)', x: PDS_X, y, width: PDS_W, height: PDS_H, rx: 14 }, root);
         el('text', { x: PDS_X + 14, y: y + 22, fill: '#000', 'font-size': 14, 'font-weight': 700 }, root).textContent = p.name;
         el('text', { x: PDS_X + 66, y: y + 22, fill: '#667b99', 'font-size': 11 }, root).textContent = p.sub;
         return r;
@@ -687,20 +739,144 @@
         pdsRects.forEach((rect, i) => rect.classList.toggle('hit', hit[i]));
       }
 
-      let start = null, last = 0;
-      function frame(now) {
-        if (slide.classList.contains('active')) {
-          if (start === null) { start = now; last = now; }
-          render(((now - start) / 1000) % LOOP, (now - last) / 1000);
-          last = now;
-        } else {
-          start = null;
-        }
-        requestAnimationFrame(frame);
-      }
-      render(0, 0);
-      requestAnimationFrame(frame);
+      play(slide, LOOP, render);
     })();
+
+    // Looping Relay aggregation animation (slide 7 and the last slide)
+    document.querySelectorAll('.relay-scene').forEach((scene, n) => {
+      const { el, clamp, play } = loopAnim;
+      const slide = scene.closest('.slide');
+      const svg = scene.querySelector('.anim-svg');
+      const phaseEl = scene.querySelector('.anim-phase');
+      const bg = `rl-box-bg-${n}`;
+
+      const LOOP = 14.5, IN = .8, LANE = 2.4, OUT = .9;
+      const ROWS = [72, 158, 244], APP_ROWS = [96, 220];
+      const PDS_X = 20, APP_X = 880, BOX_W = 200, BOX_H = 72, SLOT = 16, PER_ROW = 10;
+      const ENTRY = { x: 354, y: 172 }, EXIT = { x: 734, y: 172 }, SPEED = (EXIT.x - ENTRY.x) / LANE;
+      // Colors match the end of the previous slide (A: Bob, B: Carol, C: Alice)
+      const pdses = [
+        { name: 'PDS A', sub: 'Provider X', color: '#14804a' },
+        { name: 'PDS B', sub: 'Provider Y', color: '#e0782a' },
+        { name: 'PDS C', sub: 'Self-hosted', color: '#006aff' },
+      ];
+      const apps = [{ name: 'Bluesky', sub: 'Official app' }, { name: 'Other apps', sub: 'Own experience' }];
+      // [time it leaves the PDS, PDS]
+      const sends = [[1.5, 0], [1.9, 1], [2.4, 2], [2.9, 0], [3.3, 2], [3.8, 1], [4.3, 1], [4.7, 0], [5.2, 2], [5.7, 0], [6.1, 1], [6.6, 2], [7.0, 2], [7.5, 0], [7.9, 1]];
+      const LANDED = sends.at(-1)[0] + IN + LANE + OUT;
+
+      const queuePos = (p, k) => ({ x: PDS_X + BOX_W - 26 - k * SLOT, y: ROWS[p] - 2 });
+      const appPos = (a, i) => ({ x: APP_X + 14 + (i % PER_ROW) * SLOT, y: APP_ROWS[a] - 2 + Math.floor(i / PER_ROW) * SLOT });
+      // S-curve that is horizontal at both ends
+      const curve = (a, b, p) => {
+        const mx = (a.x + b.x) / 2, q = 1 - p;
+        return { x: q ** 3 * a.x + 3 * q * p * mx + p ** 3 * b.x, y: (q ** 3 + 3 * q * q * p) * a.y + (3 * q * p * p + p ** 3) * b.y };
+      };
+      // Easing with given end slopes; matches the curve end speed (1.5 * dx) to the constant lane speed
+      const hermite = (p, m0, m1) => (m0 + m1 - 2) * p ** 3 + (3 - 2 * m0 - m1) * p ** 2 + m0 * p;
+      const slope = (dx, dur) => SPEED * dur / (1.5 * dx);
+
+      const defs = el('defs', {}, svg);
+      const grad = el('linearGradient', { id: bg, x1: 0, y1: 0, x2: 1, y2: 1 }, defs);
+      el('stop', { offset: 0, 'stop-color': '#fff' }, grad);
+      el('stop', { offset: 1, 'stop-color': '#eef6ff' }, grad);
+      const root = el('g', {}, svg);
+
+      const line = (a, b) => {
+        const mx = (a.x + b.x) / 2 + 6;
+        el('path', { class: 'anim-line', d: `M${a.x + 6} ${a.y + 6}C${mx} ${a.y + 6} ${mx} ${b.y + 6} ${b.x + 6} ${b.y + 6}` }, root);
+      };
+      pdses.forEach((_, p) => line(queuePos(p, 0), ENTRY));
+      apps.forEach((_, a) => line(EXIT, appPos(a, 0)));
+
+      const box = (x, y, item) => {
+        const top = y - BOX_H / 2;
+        const r = el('rect', { class: 'anim-box', fill: `url(#${bg})`, x, y: top, width: BOX_W, height: BOX_H, rx: 14 }, root);
+        el('text', { x: x + 14, y: top + 22, fill: '#000', 'font-size': 14, 'font-weight': 700 }, root).textContent = item.name;
+        el('text', { x: x + BOX_W - 14, y: top + 22, 'text-anchor': 'end', fill: '#667b99', 'font-size': 11 }, root).textContent = item.sub;
+        return r;
+      };
+      const pdsRects = pdses.map((p, i) => box(PDS_X, ROWS[i], p));
+      const appRects = apps.map((a, i) => box(APP_X, APP_ROWS[i], a));
+
+      el('rect', { x: 330, y: 96, width: 440, height: 124, rx: 20, fill: '#006aff' }, root);
+      el('text', { x: 350, y: 124, fill: '#fff', 'font-size': 16, 'font-weight': 700 }, root).textContent = 'Relay';
+      el('text', { x: 750, y: 124, 'text-anchor': 'end', fill: '#fff', 'fill-opacity': .85, 'font-size': 11 }, root).textContent = 'Assigns a seq in arrival order';
+      el('rect', { x: 346, y: 140, width: 408, height: 64, rx: 12, fill: '#fff' }, root);
+      el('line', { x1: 360, y1: 178, x2: 740, y2: 178, stroke: '#dce2ea', 'stroke-width': 2, 'stroke-dasharray': '4 6' }, root);
+
+      const badge = el('g', { opacity: 0 }, root);
+      el('rect', { x: 920, y: 147, width: 120, height: 22, rx: 11, fill: '#edf8f1', stroke: '#14804a' }, badge);
+      el('text', { x: 980, y: 162, 'text-anchor': 'middle', fill: '#14804a', 'font-size': 11, 'font-weight': 700 }, badge).textContent = '✓ Same order';
+
+      const records = sends.map(([t0, p], seq) => {
+        const color = pdses[p].color;
+        const label = el('text', { y: ENTRY.y - 10, 'text-anchor': 'middle', class: 'mono', fill: '#405168', 'font-size': 10, opacity: 0 }, root);
+        label.textContent = `#${seq + 1}`;
+        return {
+          t0, p, seq, label,
+          ahead: sends.filter(([t, q]) => q === p && t < t0).map(([t]) => t),
+          copy: el('rect', { width: 12, height: 12, rx: 3, fill: color, stroke: '#fff', opacity: 0 }, root),
+          node: el('rect', { width: 12, height: 12, rx: 3, fill: color, stroke: '#fff' }, root),
+          x: 0, queued: false,
+        };
+      });
+
+      const phases = [
+        [0, '① Data is spread across PDSes'],
+        [sends[0][0], '② The Relay merges it into one sequence, in arrival order'],
+        [sends[0][0] + IN + LANE, '③ The same sequence is copied to Bluesky and other apps'],
+      ];
+
+      function render(t, dt) {
+        root.setAttribute('opacity', t < .3 ? t / .3 : clamp((LOOP - t) / .6));
+        badge.setAttribute('opacity', clamp((t - LANDED) / .4));
+        const label = phases.filter(([s]) => t >= s).pop()[1];
+        if (phaseEl.textContent !== label) phaseEl.textContent = label;
+
+        const pdsHit = [false, false, false];
+        let appHit = false;
+        for (const r of records) {
+          const enter = r.t0 + IN, exit = enter + LANE, land = exit + OUT;
+          const queued = t < r.t0;
+          let pos, copy = null;
+          if (queued) {
+            const target = queuePos(r.p, r.ahead.filter((a) => a > t).length);
+            const k = r.queued ? Math.min(1, dt * 10) : 1;
+            pos = { x: r.x + (target.x - r.x) * k, y: target.y };
+          } else if (t < enter) {
+            const a = queuePos(r.p, 0);
+            pos = curve(a, ENTRY, hermite((t - r.t0) / IN, 0, slope(ENTRY.x - a.x, IN)));
+            if (t - r.t0 < .3) pdsHit[r.p] = true;
+          } else if (t < exit) {
+            pos = { x: ENTRY.x + SPEED * (t - enter), y: ENTRY.y };
+          } else {
+            const p = clamp((t - exit) / OUT);
+            [pos, copy] = APP_ROWS.map((_, a) => {
+              const b = appPos(a, r.seq);
+              return curve(EXIT, b, hermite(p, slope(b.x - EXIT.x, OUT), 0));
+            });
+            if (t >= land && t - land < .35) appHit = true;
+          }
+          r.queued = queued;
+          r.x = pos.x;
+          r.node.setAttribute('x', pos.x);
+          r.node.setAttribute('y', pos.y);
+          r.copy.setAttribute('opacity', copy ? 1 : 0);
+          if (copy) {
+            r.copy.setAttribute('x', copy.x);
+            r.copy.setAttribute('y', copy.y);
+          }
+          const inLane = t >= enter && t < exit;
+          r.label.setAttribute('opacity', inLane ? clamp((t - enter) / .2) * clamp((exit - t) / .2) : 0);
+          if (inLane) r.label.setAttribute('x', pos.x + 6);
+        }
+        pdsRects.forEach((rect, i) => rect.classList.toggle('hit', pdsHit[i]));
+        appRects.forEach((rect) => rect.classList.toggle('hit', appHit));
+      }
+
+      play(slide, LOOP, render);
+    });
   </script>
 </body>
 </html>
